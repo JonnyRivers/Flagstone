@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testbeds", "Testbeds", "{CC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriveBackup", "Testbeds\DriveBackup\DriveBackup.csproj", "{C510D500-34A3-4DA9-A7A7-25D1F520A782}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriveBackupTests", "Testbeds\DriveBackupTests\DriveBackupTests.csproj", "{2318337A-CFFE-42DA-9753-6A85BF57A93F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,11 +25,16 @@ Global
 		{C510D500-34A3-4DA9-A7A7-25D1F520A782}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C510D500-34A3-4DA9-A7A7-25D1F520A782}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C510D500-34A3-4DA9-A7A7-25D1F520A782}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2318337A-CFFE-42DA-9753-6A85BF57A93F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2318337A-CFFE-42DA-9753-6A85BF57A93F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2318337A-CFFE-42DA-9753-6A85BF57A93F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2318337A-CFFE-42DA-9753-6A85BF57A93F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C510D500-34A3-4DA9-A7A7-25D1F520A782} = {CC65861D-44A4-4373-B747-B7DC1D036E90}
+		{2318337A-CFFE-42DA-9753-6A85BF57A93F} = {CC65861D-44A4-4373-B747-B7DC1D036E90}
 	EndGlobalSection
 EndGlobal
