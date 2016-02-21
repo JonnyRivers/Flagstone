@@ -18,6 +18,7 @@ namespace DriveBackup
 
             Application application = new Application(logger, fileSystem);
 
+            // TODO: drive this via the command line
             return application.Run(@"F:\", @"G:\");
         }
     }
