@@ -30,6 +30,10 @@ namespace DriveBackupTests
 
             // Assert
             Assert.IsTrue(mockFileSystem.File.Exists(@"D:\myfile.txt"));
+            Assert.AreEqual(
+                mockFileSystem.File.ReadAllText(@"C:\myfile.txt"),
+                mockFileSystem.File.ReadAllText(@"D:\myfile.txt")
+            );
         }
 
         [TestMethod]
