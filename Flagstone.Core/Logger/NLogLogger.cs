@@ -25,10 +25,10 @@ namespace Flagstone.Logger
             var fileTarget = new NLog.Targets.FileTarget();
 
             string localApplicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            string logPath = fileSystem.Path.Combine(localApplicationData, "MyLogs", applicationName, "log.txt");
+            string logPath = fileSystem.Path.Combine(localApplicationData, "Flagstone", applicationName, "log.txt");
             fileTarget.FileName = logPath;
-            fileTarget.ArchiveAboveSize = 1024;
-            fileTarget.MaxArchiveFiles = 5;
+            fileTarget.ArchiveAboveSize = 10 * 1024 * 1024;
+            fileTarget.MaxArchiveFiles = 10;
             fileTarget.Layout = "${longdate}|${level}|${message}";
 
             var consoleRule = new LoggingRule("*", LogLevel.Info, consoleTarget);
