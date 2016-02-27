@@ -7,13 +7,13 @@ namespace DriveBackup
 {
     public class Application
     {
-        private readonly ILogger m_logger;
         private readonly IFileSystem m_fileSystem;
+        private readonly ILogger m_logger;
 
-        public Application(ILogger logger, IFileSystem fileSystem)
+        public Application(IFileSystem fileSystem, ILogger logger)
         {
-            m_logger = logger;
             m_fileSystem = fileSystem;
+            m_logger = logger;
         }
 
         public int Run(string sourceRootDirectory, string destinationRootDirectory)

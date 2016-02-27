@@ -8,10 +8,12 @@ namespace DriveBackup
     {
         static int Main(string[] args)
         {
-            ILogger logger = new ConsoleLogger();
             IFileSystem fileSystem = new FileSystem();
 
-            Application application = new Application(logger, fileSystem);
+            ILoggerFactory loggerFactory = new LoggerFactory();
+            ILogger logger = loggerFactory.CreateNLogCommandLineApplicationLogger(fileSystem, "DriveBackup");
+
+            Application application = new Application(fileSystem, logger);
 
             // TODO: drive this via the command line
             return application.Run(@"F:\", @"G:\");
