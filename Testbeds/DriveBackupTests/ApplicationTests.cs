@@ -16,14 +16,15 @@ namespace DriveBackupTests
         public void TestFileCopy()
         {
             // Arrange
-            ILogger logger = new ConsoleLogger();
+            ILoggerFactory loggerFactory = new LoggerFactory();
+            ILogger logger = loggerFactory.CreateConsoleLogger();
 
             var mockFileDataMap = new Dictionary<string, MockFileData>() {
                 { @"C:\myfile.txt", new MockFileData("Test data") }
             };
             IFileSystem mockFileSystem = new MockFileSystem(mockFileDataMap);
 
-            var application = new DriveBackup.Application(logger, mockFileSystem);
+            var application = new DriveBackup.Application(mockFileSystem, logger);
 
             // Act
             application.Run(@"C:\", @"D:\");
@@ -39,7 +40,8 @@ namespace DriveBackupTests
         [TestMethod]
         public void TestOlderFileOverwritten() {
             // Arrange
-            ILogger logger = new ConsoleLogger();
+            ILoggerFactory loggerFactory = new LoggerFactory();
+            ILogger logger = loggerFactory.CreateConsoleLogger();
 
             var mockFileDataMap = new Dictionary<string, MockFileData>() {
                 { @"C:\myfile.txt", new MockFileData("New data") },
@@ -51,7 +53,7 @@ namespace DriveBackupTests
             FileInfoBase oldFileInfo = mockFileSystem.FileInfo.FromFileName(@"D:\myfile.txt");
             oldFileInfo.LastWriteTimeUtc = DateTime.UtcNow;
 
-            var application = new DriveBackup.Application(logger, mockFileSystem);
+            var application = new DriveBackup.Application(mockFileSystem, logger);
 
             // Act
             application.Run(@"C:\", @"D:\");
@@ -72,7 +74,8 @@ namespace DriveBackupTests
         public void TestNewerFileNotOverwritten()
         {
             // Arrange
-            ILogger logger = new ConsoleLogger();
+            ILoggerFactory loggerFactory = new LoggerFactory();
+            ILogger logger = loggerFactory.CreateConsoleLogger();
 
             var mockFileDataMap = new Dictionary<string, MockFileData>() {
                 { @"C:\myfile.txt", new MockFileData("Old data") },
@@ -83,8 +86,8 @@ namespace DriveBackupTests
             oldFileInfo.LastWriteTimeUtc = DateTime.UtcNow;
             FileInfoBase newFileInfo = mockFileSystem.FileInfo.FromFileName(@"D:\myfile.txt");
             newFileInfo.LastWriteTimeUtc = DateTime.UtcNow + new TimeSpan(0, 0, 0, 1);
-            
-            var application = new DriveBackup.Application(logger, mockFileSystem);
+
+            var application = new DriveBackup.Application(mockFileSystem, logger);
 
             // Act
             application.Run(@"C:\", @"D:\");

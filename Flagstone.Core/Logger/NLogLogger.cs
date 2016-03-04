@@ -25,7 +25,7 @@ namespace Flagstone.Logger
             var fileTarget = new NLog.Targets.FileTarget();
 
             string localApplicationData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            string logPath = fileSystem.Path.Combine(localApplicationData, "Flagstone", applicationName, "log.txt");
+            string logPath = fileSystem.Path.Combine(localApplicationData, "Flagstone", applicationName, applicationName + ".txt");
             fileTarget.FileName = logPath;
             fileTarget.ArchiveAboveSize = 10 * 1024 * 1024;
             fileTarget.MaxArchiveFiles = 10;
