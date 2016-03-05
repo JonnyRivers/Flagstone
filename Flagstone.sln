@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flagstone.Core", "Flagstone.Core\Flagstone.Core.csproj", "{335E44D6-98F3-4800-A131-A66338CB3A47}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{B40E98AA-4AD4-44F5-895C-3D6471F1CD01}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testbeds", "Testbeds", "{CC65861D-44A4-4373-B747-B7DC1D036E90}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{C2CC6649-4659-40BA-82D9-8FE59AA92243}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriveBackup", "Testbeds\DriveBackup\DriveBackup.csproj", "{C510D500-34A3-4DA9-A7A7-25D1F520A782}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D6D9F368-E970-40BA-98DC-710E7FF15575}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriveBackupTests", "Testbeds\DriveBackupTests\DriveBackupTests.csproj", "{2318337A-CFFE-42DA-9753-6A85BF57A93F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flagstone.Core", "Libs\Flagstone.Core\Flagstone.Core.csproj", "{335E44D6-98F3-4800-A131-A66338CB3A47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriveBackup", "Apps\DriveBackup\DriveBackup.csproj", "{C510D500-34A3-4DA9-A7A7-25D1F520A782}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriveBackupTests", "Tests\DriveBackupTests\DriveBackupTests.csproj", "{2318337A-CFFE-42DA-9753-6A85BF57A93F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,7 +38,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C510D500-34A3-4DA9-A7A7-25D1F520A782} = {CC65861D-44A4-4373-B747-B7DC1D036E90}
-		{2318337A-CFFE-42DA-9753-6A85BF57A93F} = {CC65861D-44A4-4373-B747-B7DC1D036E90}
+		{335E44D6-98F3-4800-A131-A66338CB3A47} = {B40E98AA-4AD4-44F5-895C-3D6471F1CD01}
+		{C510D500-34A3-4DA9-A7A7-25D1F520A782} = {C2CC6649-4659-40BA-82D9-8FE59AA92243}
+		{2318337A-CFFE-42DA-9753-6A85BF57A93F} = {D6D9F368-E970-40BA-98DC-710E7FF15575}
 	EndGlobalSection
 EndGlobal

@@ -60,11 +60,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Flagstone.Core\Flagstone.Core.csproj">
+    <ProjectReference Include="..\..\Libs\Flagstone.Core\Flagstone.Core.csproj">
       <Project>{335e44d6-98f3-4800-a131-a66338cb3a47}</Project>
       <Name>Flagstone.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DriveBackup\DriveBackup.csproj">
+    <ProjectReference Include="..\..\Apps\DriveBackup\DriveBackup.csproj">
       <Project>{c510d500-34a3-4da9-a7a7-25d1f520a782}</Project>
       <Name>DriveBackup</Name>
     </ProjectReference>

@@ -53,7 +53,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Flagstone.Core\Flagstone.Core.csproj">
+    <ProjectReference Include="..\..\Libs\Flagstone.Core\Flagstone.Core.csproj">
       <Project>{335e44d6-98f3-4800-a131-a66338cb3a47}</Project>
       <Name>Flagstone.Core</Name>
     </ProjectReference>
