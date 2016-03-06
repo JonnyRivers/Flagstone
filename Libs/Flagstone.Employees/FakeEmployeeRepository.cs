@@ -18,6 +18,11 @@ namespace Flagstone.Employees
                 Id = 1,
                 Name = "Tools"
             };
+            var engineDepartment = new Department()
+            {
+                Id = 2,
+                Name = "Engine"
+            };
 
             var jonnyRivers = new Employee()
             {
@@ -27,20 +32,44 @@ namespace Flagstone.Employees
                 DepartmentId = toolsDepartment.Id,
                 Department = toolsDepartment
             };
+            var brendenBooth = new Employee()
+            {
+                FirstName = "Brenden",
+                LastName = "Booth",
+                DateOfBirth = new DateTime(1991, 4, 9),
+                DepartmentId = toolsDepartment.Id,
+                Department = toolsDepartment
+            };
+            var alanWolfe = new Employee()
+            {
+                FirstName = "Alan",
+                LastName = "Wolfe",
+                DateOfBirth = new DateTime(1983, 3, 6),
+                DepartmentId = engineDepartment.Id,
+                Department = engineDepartment
+            };
 
             toolsDepartment.Employees = new Employee[]
             {
-                jonnyRivers
+                jonnyRivers,
+                brendenBooth
+            };
+            engineDepartment.Employees = new Employee[]
+            {
+                alanWolfe
             };
 
             m_departments = new Department[]
             {
-                toolsDepartment
+                toolsDepartment,
+                engineDepartment
             };
 
             m_employees = new Employee[]
             {
-                jonnyRivers
+                jonnyRivers,
+                brendenBooth,
+                alanWolfe
             };
         }
 

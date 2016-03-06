@@ -5,18 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:vm="clr-namespace:EmployeeManager.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
+             d:DesignHeight="300" d:DesignWidth="400"
              d:DataContext="{d:DesignInstance vm:EmployeeListDesignTimeViewModel, IsDesignTimeCreatable=True}">
     <StackPanel>
-        <ItemsControl ItemsSource="{Binding AllEmployees}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBox Width="100" Text="{Binding FirstName}" IsReadOnly="True"></TextBox>
-                        <TextBox Width="100" Text="{Binding LastName}" IsReadOnly="True"></TextBox>
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <ListView ItemsSource="{Binding AllEmployees}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="First Name" Width="70" DisplayMemberBinding="{Binding FirstName}" />
+                    <GridViewColumn Header="Last Name" Width="70" DisplayMemberBinding="{Binding LastName}" />
+                    <GridViewColumn Header="Date of Birth" Width="100" DisplayMemberBinding="{Binding DateOfBirth, StringFormat=d}" />
+                    <GridViewColumn Header="Department" Width="70" DisplayMemberBinding="{Binding Department.Name}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
     </StackPanel>
 </UserControl>
