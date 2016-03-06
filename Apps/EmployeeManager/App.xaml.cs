@@ -13,5 +13,14 @@ namespace EmployeeManager
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            var mainWindow = new MainWindow();
+            var employeeListViewModel = new ViewModels.EmployeeListViewModel();
+            var mainWindowViewModel = new ViewModels.MainWindowViewModel(employeeListViewModel);
+            mainWindow.DataContext = mainWindowViewModel;
+            mainWindow.Show();
+        }
     }
 }

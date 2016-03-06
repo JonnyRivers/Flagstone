@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace EmployeeManager
+namespace EmployeeManager.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for EmployeeListView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class EmployeeListView : UserControl
     {
-        public MainWindow()
+        public EmployeeListView()
         {
             InitializeComponent();
         }
