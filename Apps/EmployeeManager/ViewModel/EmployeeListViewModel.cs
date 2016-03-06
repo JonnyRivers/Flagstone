@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using Flagstone.Employees;
 
-namespace EmployeeManager.ViewModels
+namespace EmployeeManager.ViewModel
 {
     public class EmployeeListViewModel : ViewModelBase
     {

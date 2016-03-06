@@ -16,9 +16,9 @@ namespace EmployeeManager
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            var mainWindow = new MainWindow();
-            var employeeListViewModel = new ViewModels.EmployeeListViewModel();
-            var mainWindowViewModel = new ViewModels.MainWindowViewModel(employeeListViewModel);
+            var mainWindow = new View.MainWindow();
+            var employeeListViewModel = new ViewModel.EmployeeListViewModel();
+            var mainWindowViewModel = new ViewModel.MainWindowViewModel(employeeListViewModel);
             mainWindow.DataContext = mainWindowViewModel;
             mainWindow.Show();
         }
