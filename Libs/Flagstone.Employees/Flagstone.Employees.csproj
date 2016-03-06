@@ -68,6 +68,7 @@
       <DependentUpon>EntityFrameworkModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="EntityFrameworkEmployeeRepository.cs" />
+    <Compile Include="FakeEmployeeRepository.cs" />
     <Compile Include="IEmployeeRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
