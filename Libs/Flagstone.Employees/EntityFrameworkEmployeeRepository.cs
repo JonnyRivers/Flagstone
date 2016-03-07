@@ -27,7 +27,13 @@ namespace Flagstone.Employees
 
         public void UpdateEmployee(Employee employee)
         {
-            // TODO: Do we need to make sure we aren't updating entities 'live'?
+            Employee storedEmployee = m_dbContext.Employees.First(e => e.Id == employee.Id);
+            storedEmployee.FirstName = employee.FirstName;
+            storedEmployee.LastName = employee.LastName;
+            storedEmployee.DateOfBirth = employee.DateOfBirth;
+            storedEmployee.DepartmentId = employee.DepartmentId;
+            storedEmployee.Department = employee.Department;
+
             m_dbContext.SaveChanges();
         }
 

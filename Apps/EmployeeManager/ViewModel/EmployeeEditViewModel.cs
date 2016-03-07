@@ -15,38 +15,28 @@ namespace EmployeeManager.ViewModel
     {
         private readonly IDepartmentRepository m_departmentRepository;
         private readonly IEmployeeRepository m_employeeRepository;
-        private readonly Employee m_employee;
+        Employee m_employeeToEdit;
 
-        public EmployeeEditViewModel(IDepartmentRepository departmentRepository, IEmployeeRepository employeeRepository, Employee employee)
+        public EmployeeEditViewModel(IDepartmentRepository departmentRepository, IEmployeeRepository employeeRepository, Employee employeeToEdit)
         {
             m_departmentRepository = departmentRepository;
             m_employeeRepository = employeeRepository;
-            m_employee = employee;
+            m_employeeToEdit = employeeToEdit;
+
+            FirstName = m_employeeToEdit.FirstName;
+            LastName = m_employeeToEdit.LastName;
+            DateOfBirth = m_employeeToEdit.DateOfBirth;
+            Department = m_employeeToEdit.Department;
 
             Departments = m_departmentRepository.GetAll();
 
             ApplyChangesCommand = new RelayCommand(ApplyChangesExecute, null);
         }
 
-        public string FirstName
-        {
-            get { return m_employee.FirstName; }
-            set { m_employee.FirstName = value; }
-        }
-        public string LastName
-        {
-            get { return m_employee.LastName; }
-            set { m_employee.LastName = value; }
-        }
-        public DateTime DateOfBirth
-        {
-            get { return m_employee.DateOfBirth; }
-        }
-        public Department Department
-        {
-            get { return m_employee.Department; }
-            set { m_employee.Department = value; }
-        }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime DateOfBirth  { get; private set; }
+        public Department Department { get; set; }
 
         public IEnumerable<Department> Departments
         {
@@ -62,7 +52,16 @@ namespace EmployeeManager.ViewModel
 
         private void ApplyChangesExecute(object parameter)
         {
-            m_employeeRepository.UpdateEmployee(m_employee);
+            Employee updatedEmployee = new Employee
+            {
+                Id = m_employeeToEdit.Id,
+                FirstName = this.FirstName,
+                LastName = this.LastName,
+                DateOfBirth = this.DateOfBirth,
+                DepartmentId = this.Department.Id,
+                Department = this.Department
+            };
+            m_employeeRepository.UpdateEmployee(updatedEmployee);
         }
     }
 }
