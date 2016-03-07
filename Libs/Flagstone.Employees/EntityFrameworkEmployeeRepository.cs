@@ -25,6 +25,12 @@ namespace Flagstone.Employees
             return m_dbContext.Employees.Where(e => e.Department.Name == departmentName).ToArray();
         }
 
+        public void UpdateEmployee(Employee employee)
+        {
+            // TODO: Do we need to make sure we aren't updating entities 'live'?
+            m_dbContext.SaveChanges();
+        }
+
         public void Dispose()
         {
             m_dbContext.Dispose();

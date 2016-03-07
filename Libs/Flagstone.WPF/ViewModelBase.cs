@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmployeeManager.ViewModel
+namespace Flagstone.WPF
 {
     public abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
     {

@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Flagstone.Employees
 {
-    public interface IEmployeeRepository
+    public interface IEmployeeRepository : IDisposable
     {
         IEnumerable<Employee> GetAll();
         IEnumerable<Employee> GetByDepartmentName(string departmentName);
+
+        void UpdateEmployee(Employee employee);
     }
 }

@@ -53,14 +53,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\EmployeeEditViewModel.cs" />
     <Compile Include="ViewModel\EmployeeListDesignTimeViewModel.cs" />
     <Compile Include="ViewModel\EmployeeListViewModel.cs" />
-    <Compile Include="ViewModel\EmployeeViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeSummaryViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\EditEmployeeWindow.xaml.cs">
+      <DependentUpon>EditEmployeeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EmployeeListView.xaml.cs">
       <DependentUpon>EmployeeListView.xaml</DependentUpon>
     </Compile>
+    <Page Include="View\EditEmployeeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -109,6 +116,10 @@
     <ProjectReference Include="..\..\Libs\Flagstone.Employees\Flagstone.Employees.csproj">
       <Project>{3224fc23-5432-42af-9a73-dd55f8f80f79}</Project>
       <Name>Flagstone.Employees</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libs\Flagstone.WPF\Flagstone.WPF.csproj">
+      <Project>{e5a7d2be-0711-41b1-bed6-fda62bd84f7a}</Project>
+      <Name>Flagstone.WPF</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -6,11 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Flagstone.Employees;
+using Flagstone.WPF;
 
 namespace EmployeeManager.ViewModel
 {
     public class EmployeeListDesignTimeViewModel : ViewModelBase
     {
+        private readonly IDepartmentRepository m_departmentRepository;
         private readonly IEmployeeRepository m_employeeRepository;
 
         public ObservableCollection<ViewModelBase> AllEmployees
@@ -21,10 +23,11 @@ namespace EmployeeManager.ViewModel
 
         public EmployeeListDesignTimeViewModel()
         {
+            m_departmentRepository = new FakeDepartmentRepository();
             m_employeeRepository = new FakeEmployeeRepository();
 
             AllEmployees = new ObservableCollection<ViewModelBase>(
-                m_employeeRepository.GetAll().Select(entity => EmployeeViewModel.FromEmployee(entity))
+                m_employeeRepository.GetAll().Select(employee => new EmployeeSummaryViewModel(m_departmentRepository, m_employeeRepository, employee))
             );
         }
     }

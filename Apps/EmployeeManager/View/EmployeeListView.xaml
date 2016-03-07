@@ -14,12 +14,14 @@
                     <StackPanel Orientation="Horizontal" Margin="5">
                         <TextBlock FontSize="18">
                             <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0} ({1})">
-                                    <Binding Path="Name" />
+                                <MultiBinding StringFormat="{}{0} {1} ({2})">
+                                    <Binding Path="FirstName" />
+                                    <Binding Path="LastName" />
                                     <Binding Path="DepartmentName" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
+                        <Button Command="{Binding EditCommand}">Edit</Button>
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

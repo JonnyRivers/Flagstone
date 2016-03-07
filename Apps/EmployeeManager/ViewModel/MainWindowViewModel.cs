@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Flagstone.Employees;
+using Flagstone.WPF;
 
 namespace EmployeeManager.ViewModel
 {

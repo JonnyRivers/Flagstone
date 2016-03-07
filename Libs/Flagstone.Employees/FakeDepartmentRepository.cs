@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace Flagstone.Employees
 {
-    public class FakeEmployeeRepository : IEmployeeRepository, IDisposable
+    public class FakeDepartmentRepository : IDepartmentRepository, IDisposable
     {
         private Department[] m_departments;
-        private Employee[] m_employees;
 
-        public FakeEmployeeRepository()
+        public FakeDepartmentRepository()
         {
             var toolsDepartment = new Department()
             {
@@ -64,28 +63,11 @@ namespace Flagstone.Employees
                 toolsDepartment,
                 engineDepartment
             };
-
-            m_employees = new Employee[]
-            {
-                jonnyRivers,
-                brendenBooth,
-                alanWolfe
-            };
         }
 
-        public IEnumerable<Employee> GetAll()
+        public IEnumerable<Department> GetAll()
         {
-            return m_employees.ToArray();
-        }
-
-        public IEnumerable<Employee> GetByDepartmentName(string departmentName)
-        {
-            return m_employees.Where(e => e.Department.Name == departmentName).ToArray();
-        }
-
-        public void UpdateEmployee(Employee employee)
-        {
-            // Nothing to do?
+            return m_departments.ToArray();
         }
 
         public void Dispose()
