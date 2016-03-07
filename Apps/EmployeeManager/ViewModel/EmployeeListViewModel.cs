@@ -13,7 +13,7 @@ namespace EmployeeManager.ViewModel
     {
         private readonly IEmployeeRepository m_employeeRepository;
 
-        public ObservableCollection<Employee> AllEmployees
+        public ObservableCollection<ViewModelBase> AllEmployees
         {
             get;
             private set;
@@ -23,7 +23,9 @@ namespace EmployeeManager.ViewModel
         {
             m_employeeRepository = new EntityFrameworkEmployeeRepository();
 
-            AllEmployees = new ObservableCollection<Employee>(m_employeeRepository.GetAll());
+            AllEmployees = new ObservableCollection<ViewModelBase>(
+                m_employeeRepository.GetAll().Select(entity => EmployeeViewModel.FromEmployee(entity))
+            );
         }
     }
 }
