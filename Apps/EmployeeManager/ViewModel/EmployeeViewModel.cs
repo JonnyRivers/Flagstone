@@ -104,6 +104,9 @@ namespace EmployeeManager.ViewModel
 
         public EmployeeViewModel(IEmployeeRepository employeeRepository, DepartmentViewModel deparment)
         {
+            if (employeeRepository == null)
+                throw new ArgumentNullException("employeeRepository");
+
             m_employeeRepository = employeeRepository;
 
             m_id = c_invalidId;
@@ -118,6 +121,9 @@ namespace EmployeeManager.ViewModel
 
         public EmployeeViewModel(IEmployeeRepository employeeRepository, long id, string firstName, string lastName, DateTime dateOfBirth, DepartmentViewModel deparment)
         {
+            if (employeeRepository == null)
+                throw new ArgumentNullException("employeeRepository");
+
             m_employeeRepository = employeeRepository;
 
             m_id = id;

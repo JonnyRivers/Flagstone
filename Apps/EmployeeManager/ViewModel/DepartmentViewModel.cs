@@ -69,6 +69,9 @@ namespace EmployeeManager.ViewModel
 
         public DepartmentViewModel(IDepartmentRepository departmentRepository, long id, string name)
         {
+            if (departmentRepository == null)
+                throw new ArgumentNullException("departmentRepository");
+
             m_departmentRepository = departmentRepository;
 
             Id = id;
