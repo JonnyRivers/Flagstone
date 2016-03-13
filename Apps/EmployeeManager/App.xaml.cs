@@ -29,7 +29,8 @@ namespace EmployeeManager
 
             // Compose view model
             var employeeListViewModel = new ViewModel.EmployeeListViewModel(m_departmentRepository, m_employeeRepository);
-            var mainWindowViewModel = new ViewModel.MainWindowViewModel(employeeListViewModel);
+            var departmentListViewModel = new ViewModel.DepartmentListViewModel(m_departmentRepository);
+            var mainWindowViewModel = new ViewModel.MainWindowViewModel(employeeListViewModel, departmentListViewModel);
 
             // Compose view
             var mainWindow = new View.MainWindow() {

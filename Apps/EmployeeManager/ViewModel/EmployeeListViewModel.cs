@@ -101,6 +101,7 @@ namespace EmployeeManager.ViewModel
             AllDepartments = new ObservableCollection<DepartmentViewModel>(
                 m_departmentRepository.GetAll().Select(
                     department => new DepartmentViewModel(
+                        m_departmentRepository,
                         department.Id, 
                         department.Name
                     )

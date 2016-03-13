@@ -20,6 +20,30 @@ namespace Flagstone.Employees
             return m_dbContext.Departments.ToArray();
         }
 
+        public long AddDepartment(Department department)
+        {
+            m_dbContext.Departments.Add(department);
+            m_dbContext.SaveChanges();
+
+            return department.Id;
+        }
+
+        public void DeleteDepartment(long departmentId)
+        {
+            Department storedDepartment = m_dbContext.Departments.First(e => e.Id == departmentId);
+            m_dbContext.Departments.Remove(storedDepartment);
+
+            m_dbContext.SaveChanges();
+        }
+
+        public void UpdateDepartment(Department department)
+        {
+            Department storedDepartment = m_dbContext.Departments.First(e => e.Id == department.Id);
+            storedDepartment.Name = department.Name;
+
+            m_dbContext.SaveChanges();
+        }
+
         public void Dispose()
         {
             m_dbContext.Dispose();

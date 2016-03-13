@@ -10,10 +10,9 @@ using Flagstone.WPF;
 
 namespace EmployeeManager.ViewModel
 {
-    public class DesignTimeEmployeeListViewModel : ViewModelBase
+    public class DesignTimeDepartmentListViewModel : ViewModelBase
     {
         private readonly IDepartmentRepository m_departmentRepository;
-        private readonly IEmployeeRepository m_employeeRepository;
 
         public ObservableCollection<DepartmentViewModel> AllDepartments
         {
@@ -21,16 +20,9 @@ namespace EmployeeManager.ViewModel
             private set;
         }
 
-        public ObservableCollection<EmployeeViewModel> AllEmployees
-        {
-            get;
-            private set;
-        }
-
-        public DesignTimeEmployeeListViewModel()
+        public DesignTimeDepartmentListViewModel()
         {
             m_departmentRepository = new FakeDepartmentRepository();
-            m_employeeRepository = new FakeEmployeeRepository();
 
             AllDepartments = new ObservableCollection<DepartmentViewModel>(
                 m_departmentRepository.GetAll().Select(
@@ -38,18 +30,6 @@ namespace EmployeeManager.ViewModel
                         m_departmentRepository,
                         department.Id,
                         department.Name
-                    )
-                )
-            );
-
-            AllEmployees = new ObservableCollection<EmployeeViewModel>(
-                m_employeeRepository.GetAll().Select(
-                    employee => new EmployeeViewModel(
-                        m_employeeRepository,
-                        employee.Id,
-                        employee.FirstName,
-                        employee.LastName,
-                        employee.DateOfBirth, AllDepartments.First(d => d.Id == employee.DepartmentId)
                     )
                 )
             );

@@ -8,7 +8,7 @@ namespace Flagstone.Employees
 {
     public class FakeDepartmentRepository : IDepartmentRepository, IDisposable
     {
-        private Department[] m_departments;
+        private Dictionary<long, Department> m_departments;
 
         public FakeDepartmentRepository()
         {
@@ -25,6 +25,7 @@ namespace Flagstone.Employees
 
             var jonnyRivers = new Employee()
             {
+                Id = 1,
                 FirstName = "Jonny",
                 LastName = "Rivers",
                 DateOfBirth = new DateTime(1979, 8, 16),
@@ -33,6 +34,7 @@ namespace Flagstone.Employees
             };
             var brendenBooth = new Employee()
             {
+                Id = 2,
                 FirstName = "Brenden",
                 LastName = "Booth",
                 DateOfBirth = new DateTime(1991, 4, 9),
@@ -41,6 +43,7 @@ namespace Flagstone.Employees
             };
             var alanWolfe = new Employee()
             {
+                Id = 3,
                 FirstName = "Alan",
                 LastName = "Wolfe",
                 DateOfBirth = new DateTime(1983, 3, 6),
@@ -58,16 +61,39 @@ namespace Flagstone.Employees
                 alanWolfe
             };
 
-            m_departments = new Department[]
+            m_departments = new Dictionary<long, Department>()
             {
-                toolsDepartment,
-                engineDepartment
+                {toolsDepartment.Id, toolsDepartment},
+                {engineDepartment.Id, engineDepartment}
             };
         }
 
         public IEnumerable<Department> GetAll()
         {
-            return m_departments.ToArray();
+            return m_departments.Values.ToArray();
+        }
+        public long AddDepartment(Department department)
+        {
+            var newDepartment = new Department()
+            {
+                Id = m_departments.Keys.Max() + 1,
+                Name = department.Name
+            };
+
+            m_departments.Add(newDepartment.Id, newDepartment);
+
+            return newDepartment.Id;
+        }
+
+        public void DeleteDepartment(long departmentId)
+        {
+            m_departments.Remove(departmentId);
+        }
+
+        public void UpdateDepartment(Department department)
+        {
+            Department storedDepartment = m_departments[department.Id];
+            storedDepartment.Name = department.Name;
         }
 
         public void Dispose()

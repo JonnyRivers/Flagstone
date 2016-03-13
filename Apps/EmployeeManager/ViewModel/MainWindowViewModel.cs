@@ -11,15 +11,25 @@ namespace EmployeeManager.ViewModel
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        public MainWindowViewModel(ViewModelBase employeeListViewModel)
+        public MainWindowViewModel(ViewModelBase employeeListViewModel, ViewModelBase departmentListViewModel)
         {
             if (employeeListViewModel == null)
                 throw new ArgumentNullException("employeeListViewModel");
 
+            if (departmentListViewModel == null)
+                throw new ArgumentNullException("departmentListViewModel");
+
             EmployeeListViewModel = employeeListViewModel;
+            DepartmentListViewModel = departmentListViewModel;
         }
 
         public ViewModelBase EmployeeListViewModel
+        {
+            get;
+            private set;
+        }
+
+        public ViewModelBase DepartmentListViewModel
         {
             get;
             private set;

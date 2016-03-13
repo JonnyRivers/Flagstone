@@ -9,5 +9,11 @@ namespace Flagstone.Employees
     public interface IDepartmentRepository : IDisposable
     {
         IEnumerable<Department> GetAll();
+
+        long AddDepartment(Department department);
+
+        void DeleteDepartment(long departmentId);
+
+        void UpdateDepartment(Department department);
     }
 }

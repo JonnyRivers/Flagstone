@@ -14,7 +14,7 @@
                 <v:EmployeeListView DataContext="{Binding EmployeeListViewModel}"></v:EmployeeListView>    
             </TabItem>
             <TabItem Header="Departments">
-                
+                <v:DepartmentListView DataContext="{Binding DepartmentListViewModel}"></v:DepartmentListView>
             </TabItem>
         </TabControl>
     </Grid>
