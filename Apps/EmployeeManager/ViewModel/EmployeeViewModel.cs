@@ -18,6 +18,8 @@ namespace EmployeeManager.ViewModel
         private readonly long m_id;
         private string m_firstName;
         private string m_lastName;
+        private DateTime m_dateOfBirth;
+        private DepartmentViewModel m_department;
 
         private bool m_isDirty;
 
@@ -48,8 +50,30 @@ namespace EmployeeManager.ViewModel
                 }
             }
         }
-        public DateTime DateOfBirth { get; set; }
-        public DepartmentViewModel Department { get; set; }
+        public DateTime DateOfBirth
+        {
+            get { return m_dateOfBirth; }
+            set
+            {
+                if (value != m_dateOfBirth)
+                {
+                    m_dateOfBirth = value;
+                    IsDirty = true;
+                }
+            }
+        }
+        public DepartmentViewModel Department
+        {
+            get { return m_department; }
+            set
+            {
+                if (value != m_department)
+                {
+                    m_department = value;
+                    IsDirty = true;
+                }
+            }
+        }
 
         public bool IsDirty 
         {
@@ -69,7 +93,7 @@ namespace EmployeeManager.ViewModel
             m_firstName = firstName;
             m_lastName = lastName;
             DateOfBirth = dateOfBirth;
-            Department = deparment;
+            m_department = deparment;
             m_isDirty = false;
 
             ApplyChangesCommand = new RelayCommand(ApplyChangesExecute, null);

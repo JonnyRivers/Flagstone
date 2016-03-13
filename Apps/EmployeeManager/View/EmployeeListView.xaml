@@ -44,7 +44,7 @@
                 <Label Grid.Row="1" Grid.Column="0">Last Name</Label>
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.LastName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                 <Label Grid.Row="2" Grid.Column="0">Date of Birth</Label>
-                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.DateOfBirth, StringFormat=d}"></TextBlock>
+                <TextBox Grid.Row="2" Grid.Column="1" IsEnabled="False" Text="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.DateOfBirth, StringFormat=d}"></TextBox>
                 <Label Grid.Row="3" Grid.Column="0">Department</Label>
                 <ComboBox Grid.Row="3" Grid.Column="1" SelectedItem="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.Department}" ItemsSource="{Binding AllDepartments}">
                     <ComboBox.ItemTemplate>
