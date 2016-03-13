@@ -97,6 +97,8 @@ namespace EmployeeManager.ViewModel
             {
                 m_isDirty = value;
                 OnPropertyChanged("IsDirty");
+                // TODO - this seems heavy handed
+                CommandManager.InvalidateRequerySuggested();
             }
         }
 
@@ -111,7 +113,7 @@ namespace EmployeeManager.ViewModel
             m_department = deparment;
             m_isDirty = true;
 
-            ApplyChangesCommand = new RelayCommand(ApplyChangesExecute, null);
+            ApplyChangesCommand = new RelayCommand(ApplyChangesExecute, ApplyChangesCanExecute);
         }
 
         public EmployeeViewModel(IEmployeeRepository employeeRepository, long id, string firstName, string lastName, DateTime dateOfBirth, DepartmentViewModel deparment)
@@ -125,13 +127,18 @@ namespace EmployeeManager.ViewModel
             m_department = deparment;
             m_isDirty = false;
 
-            ApplyChangesCommand = new RelayCommand(ApplyChangesExecute, null);
+            ApplyChangesCommand = new RelayCommand(ApplyChangesExecute, ApplyChangesCanExecute);
         }
 
         public ICommand ApplyChangesCommand
         {
             get;
             private set;
+        }
+
+        private bool ApplyChangesCanExecute(object parameter)
+        {
+            return IsDirty;
         }
 
         private void ApplyChangesExecute(object parameter)

@@ -18,7 +18,7 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
-            <ListView Grid.Row="0" x:Name="EmployeeListViewControl" ItemsSource="{Binding AllEmployees}" Margin="0,0,0,5">
+            <ListView Grid.Row="0" SelectedItem="{Binding SelectedEmployee}" ItemsSource="{Binding AllEmployees}" Margin="0,0,0,5">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="5">
@@ -38,7 +38,7 @@
             <Button Grid.Row="1" Command="{Binding DeleteEmployeeCommand}" Margin="0,5">Delete Employee</Button>
             <Button Grid.Row="2" Command="{Binding AddEmployeeCommand}">Add New Employee</Button>
         </Grid>
-        <Grid Grid.Column="1"  IsEnabled="{Binding ElementName=EmployeeListViewControl, Path=SelectedItems.Count}" Margin="5">
+        <Grid Grid.Column="1" IsEnabled="{Binding IsSelectionValid}" Margin="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -52,13 +52,13 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0">First Name</Label>
-            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.FirstName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedEmployee.FirstName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             <Label Grid.Row="1" Grid.Column="0">Last Name</Label>
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.LastName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedEmployee.LastName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             <Label Grid.Row="2" Grid.Column="0">Date of Birth</Label>
-            <DatePicker Grid.Row="2" Grid.Column="1" SelectedDate="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.DateOfBirth, StringFormat=d, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
+            <DatePicker Grid.Row="2" Grid.Column="1" SelectedDate="{Binding SelectedEmployee.DateOfBirth, StringFormat=d, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
             <Label Grid.Row="3" Grid.Column="0">Department</Label>
-            <ComboBox Grid.Row="3" Grid.Column="1" SelectedItem="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.Department}" ItemsSource="{Binding AllDepartments}">
+            <ComboBox Grid.Row="3" Grid.Column="1" SelectedItem="{Binding SelectedEmployee.Department}" ItemsSource="{Binding AllDepartments}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}"></TextBlock>
@@ -66,8 +66,7 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
             <Button Grid.Row="5" Grid.ColumnSpan="2" 
-                    IsEnabled="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.IsDirty}" 
-                    Command="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.ApplyChangesCommand}">Apply Changes</Button>
+                    Command="{Binding SelectedEmployee.ApplyChangesCommand}">Apply Changes</Button>
         </Grid>
     </Grid>
 </UserControl>

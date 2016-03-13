@@ -16,6 +16,8 @@ namespace EmployeeManager.ViewModel
         private readonly IDepartmentRepository m_departmentRepository;
         private readonly IEmployeeRepository m_employeeRepository;
 
+        private EmployeeViewModel m_selectedEmployee;
+
         public ObservableCollection<DepartmentViewModel> AllDepartments
         {
             get;
@@ -26,6 +28,27 @@ namespace EmployeeManager.ViewModel
         {
             get;
             private set;
+        }
+
+        public EmployeeViewModel SelectedEmployee
+        {
+            get { return m_selectedEmployee; }
+            set
+            {
+                if (m_selectedEmployee != value)
+                {
+                    m_selectedEmployee = value;
+                    OnPropertyChanged("SelectedEmployee");
+                    OnPropertyChanged("IsSelectionValid");
+                    // TODO - this seems heavy handed
+                    CommandManager.InvalidateRequerySuggested();
+                }
+            }
+        }
+
+        public bool IsSelectionValid
+        {
+            get { return SelectedEmployee != null; }
         }
 
         public ICommand AddEmployeeCommand
@@ -45,16 +68,18 @@ namespace EmployeeManager.ViewModel
             var newEmployee = new EmployeeViewModel(m_employeeRepository, AllDepartments.First());
 
             AllEmployees.Add(newEmployee);
+
+            SelectedEmployee = newEmployee;
         }
 
         private void DeleteEmployeeExecute(object parameter)
         {
-            
+            // TODO
         }
 
         private bool DeleteEmployeeCanExecute(object parameter)
         {
-            return false;
+            return IsSelectionValid;
         }
 
         public EmployeeListViewModel(IDepartmentRepository departmentRepository, IEmployeeRepository employeeRepository)
@@ -88,6 +113,8 @@ namespace EmployeeManager.ViewModel
                     )
                 )
             );
+
+            SelectedEmployee = null;
 
             AddEmployeeCommand = new RelayCommand(AddEmployeeExecute, null);
             DeleteEmployeeCommand = new RelayCommand(DeleteEmployeeExecute, DeleteEmployeeCanExecute);
