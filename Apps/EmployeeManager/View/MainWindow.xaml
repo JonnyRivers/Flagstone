@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:EmployeeManager.ViewModel"
         mc:Ignorable="d" 
         d:DataContext="{d:DesignInstance vm:DesignTimeMainWindowViewModel, IsDesignTimeCreatable=True}"
-        Title="Employee Manager" Height="350" Width="525">
+        Title="Employee Manager" Height="350" Width="525" MinHeight="350" MinWidth="525">
     <Grid>
         <TabControl>
             <TabItem Header="Employees">
