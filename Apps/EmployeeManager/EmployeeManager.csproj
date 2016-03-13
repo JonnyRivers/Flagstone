@@ -55,6 +55,7 @@
     </ApplicationDefinition>
     <Compile Include="ViewModel\DepartmentViewModel.cs" />
     <Compile Include="ViewModel\DesignTimeEmployeeListViewModel.cs" />
+    <Compile Include="ViewModel\DesignTimeMainWindowViewModel.cs" />
     <Compile Include="ViewModel\EmployeeListViewModel.cs" />
     <Compile Include="ViewModel\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
