@@ -4,8 +4,13 @@
         xmlns:v="clr-namespace:EmployeeManager.View"
         Title="Employee Manager" Height="350" Width="525">
     <Grid>
-        <GroupBox Header="Employees" Margin="10,10,0,0">
-            <v:EmployeeListView DataContext="{Binding EmployeeListViewModel}"></v:EmployeeListView>
-        </GroupBox>
+        <TabControl>
+            <TabItem Header="Employees">
+                <v:EmployeeListView DataContext="{Binding EmployeeListViewModel}"></v:EmployeeListView>    
+            </TabItem>
+            <TabItem Header="Departments">
+                
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

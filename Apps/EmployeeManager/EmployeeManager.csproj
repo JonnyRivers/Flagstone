@@ -53,10 +53,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModel\EmployeeEditViewModel.cs" />
-    <Compile Include="ViewModel\EmployeeListDesignTimeViewModel.cs" />
+    <Compile Include="ViewModel\DepartmentViewModel.cs" />
+    <Compile Include="ViewModel\DesignTimeEmployeeListViewModel.cs" />
     <Compile Include="ViewModel\EmployeeListViewModel.cs" />
-    <Compile Include="ViewModel\EmployeeSummaryViewModel.cs" />
+    <Compile Include="ViewModel\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="View\EditEmployeeWindow.xaml.cs">
       <DependentUpon>EditEmployeeWindow.xaml</DependentUpon>

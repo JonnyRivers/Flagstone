@@ -10,7 +10,8 @@ using Flagstone.WPF;
 
 namespace EmployeeManager.ViewModel
 {
-    public class EmployeeListViewModel : ViewModelBase
+    // TODO - this is just a copy of the real thing with fake databases injected
+    public class DesignTimeEmployeeListViewModel : ViewModelBase
     {
         private readonly IDepartmentRepository m_departmentRepository;
         private readonly IEmployeeRepository m_employeeRepository;
@@ -27,21 +28,15 @@ namespace EmployeeManager.ViewModel
             private set;
         }
 
-        public EmployeeListViewModel(IDepartmentRepository departmentRepository, IEmployeeRepository employeeRepository)
+        public DesignTimeEmployeeListViewModel()
         {
-            if (departmentRepository == null)
-                throw new ArgumentNullException("departmentRepository");
-
-            if (employeeRepository == null)
-                throw new ArgumentNullException("employeeRepository");
-
-            m_departmentRepository = departmentRepository;
-            m_employeeRepository = employeeRepository;
+            m_departmentRepository = new FakeDepartmentRepository();
+            m_employeeRepository = new FakeEmployeeRepository();
 
             AllDepartments = new ObservableCollection<DepartmentViewModel>(
                 m_departmentRepository.GetAll().Select(
                     department => new DepartmentViewModel(
-                        department.Id, 
+                        department.Id,
                         department.Name
                     )
                 )
@@ -50,10 +45,10 @@ namespace EmployeeManager.ViewModel
             AllEmployees = new ObservableCollection<EmployeeViewModel>(
                 m_employeeRepository.GetAll().Select(
                     employee => new EmployeeViewModel(
-                        m_employeeRepository, 
-                        employee.Id, 
-                        employee.FirstName, 
-                        employee.LastName, 
+                        m_employeeRepository,
+                        employee.Id,
+                        employee.FirstName,
+                        employee.LastName,
                         employee.DateOfBirth, AllDepartments.First(d => d.Id == employee.DepartmentId)
                     )
                 )

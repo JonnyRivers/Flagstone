@@ -6,25 +6,58 @@
              xmlns:vm="clr-namespace:EmployeeManager.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400"
-             d:DataContext="{d:DesignInstance vm:EmployeeListDesignTimeViewModel, IsDesignTimeCreatable=True}">
+             d:DataContext="{d:DesignInstance vm:DesignTimeEmployeeListViewModel, IsDesignTimeCreatable=True}">
     <Grid>
-        <ItemsControl ItemsSource="{Binding AllEmployees}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="5">
-                        <TextBlock FontSize="18">
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0} {1} ({2})">
-                                    <Binding Path="FirstName" />
-                                    <Binding Path="LastName" />
-                                    <Binding Path="DepartmentName" />
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                        <Button Command="{Binding EditCommand}">Edit</Button>
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <StackPanel Orientation="Horizontal">
+            <ListView x:Name="EmployeeListViewControl" ItemsSource="{Binding AllEmployees}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="5">
+                            <TextBlock FontSize="18">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} {1} ({2})">
+                                        <Binding Path="FirstName" />
+                                        <Binding Path="LastName" />
+                                        <Binding Path="Department.Name" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Grid IsEnabled="{Binding ElementName=EmployeeListViewControl, Path=SelectedItems.Count}" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="24"></RowDefinition>
+                    <RowDefinition Height="24"></RowDefinition>
+                    <RowDefinition Height="24"></RowDefinition>
+                    <RowDefinition Height="24"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="24"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0">First Name</Label>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.FirstName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <Label Grid.Row="1" Grid.Column="0">Last Name</Label>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.LastName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <Label Grid.Row="2" Grid.Column="0">Date of Birth</Label>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.DateOfBirth, StringFormat=d}"></TextBlock>
+                <Label Grid.Row="3" Grid.Column="0">Department</Label>
+                <ComboBox Grid.Row="3" Grid.Column="1" SelectedItem="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.Department}" ItemsSource="{Binding AllDepartments}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"></TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Button Grid.Row="5" Grid.Column="1" 
+                        IsEnabled="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.IsDirty}" 
+                        Command="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.ApplyChangesCommand}">Apply Changes</Button>
+            </Grid>
+        </StackPanel>
+        
     </Grid>
 </UserControl>
