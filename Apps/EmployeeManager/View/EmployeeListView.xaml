@@ -8,56 +8,57 @@
              d:DesignHeight="300" d:DesignWidth="400"
              d:DataContext="{d:DesignInstance vm:DesignTimeEmployeeListViewModel, IsDesignTimeCreatable=True}">
     <Grid>
-        <StackPanel Orientation="Horizontal">
-            <ListView x:Name="EmployeeListViewControl" ItemsSource="{Binding AllEmployees}">
-                <ListView.ItemTemplate>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ListView Grid.Column="0" x:Name="EmployeeListViewControl" ItemsSource="{Binding AllEmployees}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5">
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} {1} ({2})">
+                                    <Binding Path="FirstName" />
+                                    <Binding Path="LastName" />
+                                    <Binding Path="Department.Name" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Grid Grid.Column="1"  IsEnabled="{Binding ElementName=EmployeeListViewControl, Path=SelectedItems.Count}" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0">First Name</Label>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.FirstName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Grid.Row="1" Grid.Column="0">Last Name</Label>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.LastName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Grid.Row="2" Grid.Column="0">Date of Birth</Label>
+            <DatePicker Grid.Row="2" Grid.Column="1" SelectedDate="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.DateOfBirth, StringFormat=d, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
+            <Label Grid.Row="3" Grid.Column="0">Department</Label>
+            <ComboBox Grid.Row="3" Grid.Column="1" SelectedItem="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.Department}" ItemsSource="{Binding AllDepartments}">
+                <ComboBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Margin="5">
-                            <TextBlock FontSize="18">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} {1} ({2})">
-                                        <Binding Path="FirstName" />
-                                        <Binding Path="LastName" />
-                                        <Binding Path="Department.Name" />
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </StackPanel>
+                        <TextBlock Text="{Binding Name}"></TextBlock>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <Grid IsEnabled="{Binding ElementName=EmployeeListViewControl, Path=SelectedItems.Count}" Margin="5">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="24"></RowDefinition>
-                    <RowDefinition Height="24"></RowDefinition>
-                    <RowDefinition Height="24"></RowDefinition>
-                    <RowDefinition Height="24"></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition Height="24"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0">First Name</Label>
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.FirstName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                <Label Grid.Row="1" Grid.Column="0">Last Name</Label>
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.LastName, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                <Label Grid.Row="2" Grid.Column="0">Date of Birth</Label>
-                <TextBox Grid.Row="2" Grid.Column="1" IsEnabled="False" Text="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.DateOfBirth, StringFormat=d}"></TextBox>
-                <Label Grid.Row="3" Grid.Column="0">Department</Label>
-                <ComboBox Grid.Row="3" Grid.Column="1" SelectedItem="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.Department}" ItemsSource="{Binding AllDepartments}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}"></TextBlock>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-                <Button Grid.Row="5" Grid.Column="1" 
-                        IsEnabled="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.IsDirty}" 
-                        Command="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.ApplyChangesCommand}">Apply Changes</Button>
-            </Grid>
-        </StackPanel>
-        
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Grid.Row="5" Grid.ColumnSpan="2" 
+                    IsEnabled="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.IsDirty}" 
+                    Command="{Binding ElementName=EmployeeListViewControl, Path=SelectedItem.ApplyChangesCommand}">Apply Changes</Button>
+        </Grid>
     </Grid>
 </UserControl>
