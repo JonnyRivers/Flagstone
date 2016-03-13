@@ -33,6 +33,7 @@ namespace EmployeeManager.ViewModel
                 if (value != m_id)
                 {
                     m_id = value;
+                    OnPropertyChanged("Id");
                     IsDirty = true;
                 }
             }
@@ -44,6 +45,7 @@ namespace EmployeeManager.ViewModel
                 if (value != m_firstName)
                 {
                     m_firstName = value;
+                    OnPropertyChanged("FirstName");
                     IsDirty = true;
                 }
             }
@@ -56,6 +58,7 @@ namespace EmployeeManager.ViewModel
                 if (value != m_lastName)
                 {
                     m_lastName = value;
+                    OnPropertyChanged("LastName");
                     IsDirty = true;
                 }
             }
@@ -68,6 +71,7 @@ namespace EmployeeManager.ViewModel
                 if (value != m_dateOfBirth)
                 {
                     m_dateOfBirth = value;
+                    OnPropertyChanged("DateOfBirth");
                     IsDirty = true;
                 }
             }
@@ -80,6 +84,7 @@ namespace EmployeeManager.ViewModel
                 if (value != m_department)
                 {
                     m_department = value;
+                    OnPropertyChanged("Department");
                     IsDirty = true;
                 }
             }

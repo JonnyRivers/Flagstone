@@ -34,11 +34,27 @@ namespace EmployeeManager.ViewModel
             private set;
         }
 
+        public ICommand DeleteEmployeeCommand
+        {
+            get;
+            private set;
+        }
+
         private void AddEmployeeExecute(object parameter)
         {
             var newEmployee = new EmployeeViewModel(m_employeeRepository, AllDepartments.First());
 
             AllEmployees.Add(newEmployee);
+        }
+
+        private void DeleteEmployeeExecute(object parameter)
+        {
+            
+        }
+
+        private bool DeleteEmployeeCanExecute(object parameter)
+        {
+            return false;
         }
 
         public EmployeeListViewModel(IDepartmentRepository departmentRepository, IEmployeeRepository employeeRepository)
@@ -74,6 +90,7 @@ namespace EmployeeManager.ViewModel
             );
 
             AddEmployeeCommand = new RelayCommand(AddEmployeeExecute, null);
+            DeleteEmployeeCommand = new RelayCommand(DeleteEmployeeExecute, DeleteEmployeeCanExecute);
         }
     }
 }
