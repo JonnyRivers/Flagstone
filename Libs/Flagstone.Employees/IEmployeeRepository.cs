@@ -11,6 +11,8 @@ namespace Flagstone.Employees
         IEnumerable<Employee> GetAll();
         IEnumerable<Employee> GetByDepartmentName(string departmentName);
 
+        long AddEmployee(Employee employee);
+
         void UpdateEmployee(Employee employee);
     }
 }

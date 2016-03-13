@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 using Flagstone.Employees;
 using Flagstone.WPF;
@@ -25,6 +26,19 @@ namespace EmployeeManager.ViewModel
         {
             get;
             private set;
+        }
+
+        public ICommand AddEmployeeCommand
+        {
+            get;
+            private set;
+        }
+
+        private void AddEmployeeExecute(object parameter)
+        {
+            var newEmployee = new EmployeeViewModel(m_employeeRepository, AllDepartments.First());
+
+            AllEmployees.Add(newEmployee);
         }
 
         public EmployeeListViewModel(IDepartmentRepository departmentRepository, IEmployeeRepository employeeRepository)
@@ -58,6 +72,8 @@ namespace EmployeeManager.ViewModel
                     )
                 )
             );
+
+            AddEmployeeCommand = new RelayCommand(AddEmployeeExecute, null);
         }
     }
 }

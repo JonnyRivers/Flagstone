@@ -25,14 +25,21 @@ namespace Flagstone.Employees
             return m_dbContext.Employees.Where(e => e.Department.Name == departmentName).ToArray();
         }
 
+        public long AddEmployee(Employee employee)
+        {
+            m_dbContext.Employees.Add(employee);
+            m_dbContext.SaveChanges();
+
+            return employee.Id;
+        }
+
         public void UpdateEmployee(Employee employee)
         {
-            Employee storedEmployee = m_dbContext.Employees.First(e => e.Id == employee.Id);
+            Employee storedEmployee = m_dbContext.Employees.FirstOrDefault(e => e.Id == employee.Id);
             storedEmployee.FirstName = employee.FirstName;
             storedEmployee.LastName = employee.LastName;
             storedEmployee.DateOfBirth = employee.DateOfBirth;
             storedEmployee.DepartmentId = employee.DepartmentId;
-            storedEmployee.Department = employee.Department;
 
             m_dbContext.SaveChanges();
         }

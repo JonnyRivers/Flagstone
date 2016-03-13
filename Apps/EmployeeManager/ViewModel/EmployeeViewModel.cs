@@ -15,7 +15,9 @@ namespace EmployeeManager.ViewModel
     {
         private readonly IEmployeeRepository m_employeeRepository;
 
-        private readonly long m_id;
+        private const long c_invalidId = -1;
+
+        private long m_id;
         private string m_firstName;
         private string m_lastName;
         private DateTime m_dateOfBirth;
@@ -26,6 +28,14 @@ namespace EmployeeManager.ViewModel
         public long Id
         {
             get { return m_id; }
+            set
+            {
+                if (value != m_id)
+                {
+                    m_id = value;
+                    IsDirty = true;
+                }
+            }
         }
         public string FirstName
         {
@@ -85,6 +95,20 @@ namespace EmployeeManager.ViewModel
             }
         }
 
+        public EmployeeViewModel(IEmployeeRepository employeeRepository, DepartmentViewModel deparment)
+        {
+            m_employeeRepository = employeeRepository;
+
+            m_id = c_invalidId;
+            m_firstName = String.Empty;
+            m_lastName = String.Empty;
+            DateOfBirth = DateTime.Today;
+            m_department = deparment;
+            m_isDirty = true;
+
+            ApplyChangesCommand = new RelayCommand(ApplyChangesExecute, null);
+        }
+
         public EmployeeViewModel(IEmployeeRepository employeeRepository, long id, string firstName, string lastName, DateTime dateOfBirth, DepartmentViewModel deparment)
         {
             m_employeeRepository = employeeRepository;
@@ -107,15 +131,28 @@ namespace EmployeeManager.ViewModel
 
         private void ApplyChangesExecute(object parameter)
         {
-            Employee updatedEmployee = new Employee
+            if (this.Id == c_invalidId) {
+                Employee newEmployee = new Employee
+                {
+                    FirstName = this.FirstName,
+                    LastName = this.LastName,
+                    DateOfBirth = this.DateOfBirth,
+                    DepartmentId = this.Department.Id
+                };
+                this.Id = m_employeeRepository.AddEmployee(newEmployee);
+            }
+            else
             {
-                Id = this.Id,
-                FirstName = this.FirstName,
-                LastName = this.LastName,
-                DateOfBirth = this.DateOfBirth,
-                DepartmentId = this.Department.Id
-            };
-            m_employeeRepository.UpdateEmployee(updatedEmployee);
+                Employee updatedEmployee = new Employee
+                {
+                    Id = this.Id,
+                    FirstName = this.FirstName,
+                    LastName = this.LastName,
+                    DateOfBirth = this.DateOfBirth,
+                    DepartmentId = this.Department.Id
+                };
+                m_employeeRepository.UpdateEmployee(updatedEmployee);
+            }
 
             IsDirty = false;
         }
