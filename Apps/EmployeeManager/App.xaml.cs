@@ -43,8 +43,8 @@ namespace EmployeeManager
         {
             base.OnExit(e);
 
-            m_departmentRepository.Dispose();
             m_employeeRepository.Dispose();
+            m_departmentRepository.Dispose();
         }
     }
 }

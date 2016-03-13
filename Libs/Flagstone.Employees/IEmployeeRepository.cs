@@ -13,6 +13,8 @@ namespace Flagstone.Employees
 
         long AddEmployee(Employee employee);
 
+        void DeleteEmployee(long employeeId);
+
         void UpdateEmployee(Employee employee);
     }
 }

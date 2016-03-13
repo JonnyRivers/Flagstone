@@ -102,6 +102,11 @@ namespace Flagstone.Employees
             return newEmployee.Id;
         }
 
+        public void DeleteEmployee(long employeeId)
+        {
+            m_employees.Remove(employeeId);
+        }
+
         public void UpdateEmployee(Employee employee)
         {
             Employee storedEmployee = m_employees[employee.Id];

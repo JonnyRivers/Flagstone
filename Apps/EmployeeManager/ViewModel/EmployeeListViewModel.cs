@@ -74,7 +74,12 @@ namespace EmployeeManager.ViewModel
 
         private void DeleteEmployeeExecute(object parameter)
         {
-            // TODO
+            // update model
+            m_employeeRepository.DeleteEmployee(SelectedEmployee.Id);
+
+            // update viewmodel
+            AllEmployees.Remove(SelectedEmployee);
+            SelectedEmployee = null;
         }
 
         private bool DeleteEmployeeCanExecute(object parameter)

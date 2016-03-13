@@ -33,9 +33,17 @@ namespace Flagstone.Employees
             return employee.Id;
         }
 
+        public void DeleteEmployee(long employeeId)
+        {
+            Employee storedEmployee = m_dbContext.Employees.First(e => e.Id == employeeId);
+            m_dbContext.Employees.Remove(storedEmployee);
+
+            m_dbContext.SaveChanges();
+        }
+
         public void UpdateEmployee(Employee employee)
         {
-            Employee storedEmployee = m_dbContext.Employees.FirstOrDefault(e => e.Id == employee.Id);
+            Employee storedEmployee = m_dbContext.Employees.First(e => e.Id == employee.Id);
             storedEmployee.FirstName = employee.FirstName;
             storedEmployee.LastName = employee.LastName;
             storedEmployee.DateOfBirth = employee.DateOfBirth;
