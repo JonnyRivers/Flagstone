@@ -62,7 +62,7 @@ namespace EmployeeManager.ViewModel
         }
 
         public DepartmentViewModel(IDepartmentRepository departmentRepository)
-            : this(departmentRepository, c_invalidId, String.Empty)
+            : this(departmentRepository, c_invalidId, "New Department")
         {
             m_isDirty = true;
         }

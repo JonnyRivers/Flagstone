@@ -102,21 +102,17 @@ namespace EmployeeManager.ViewModel
             }
         }
 
-        public EmployeeViewModel(IEmployeeRepository employeeRepository, DepartmentViewModel deparment)
+        public EmployeeViewModel(IEmployeeRepository employeeRepository, DepartmentViewModel deparment) : 
+            this(
+                employeeRepository,
+                c_invalidId,
+                "New",
+                "Employee",
+                DateTime.Now,
+                deparment
+            )
         {
-            if (employeeRepository == null)
-                throw new ArgumentNullException("employeeRepository");
-
-            m_employeeRepository = employeeRepository;
-
-            m_id = c_invalidId;
-            m_firstName = String.Empty;
-            m_lastName = String.Empty;
-            DateOfBirth = DateTime.Today;
-            m_department = deparment;
             m_isDirty = true;
-
-            ApplyChangesCommand = new RelayCommand(ApplyChangesExecute, ApplyChangesCanExecute);
         }
 
         public EmployeeViewModel(IEmployeeRepository employeeRepository, long id, string firstName, string lastName, DateTime dateOfBirth, DepartmentViewModel deparment)
