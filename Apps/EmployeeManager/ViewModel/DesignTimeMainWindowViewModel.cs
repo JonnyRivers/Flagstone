@@ -13,7 +13,14 @@ namespace EmployeeManager.ViewModel
     {
         public DesignTimeMainWindowViewModel()
         {
+            DepartmentListViewModel = new DesignTimeDepartmentListViewModel();
             EmployeeListViewModel = new DesignTimeEmployeeListViewModel();
+        }
+
+        public ViewModelBase DepartmentListViewModel
+        {
+            get;
+            private set;
         }
 
         public ViewModelBase EmployeeListViewModel
