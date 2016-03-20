@@ -1,21 +1,37 @@
 ﻿@{
-    Layout = null;
+    ViewBag.Title = "Employees";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-  <meta name="viewport" content="width=device-width" />
-  <title>Index</title>
-</head>
-<body>
-  <h2>Employees</h2>
-  <div>
-    @foreach (Flagstone.Employees.Employee employee in Model)
-    {
-        <p>@employee.FirstName @employee.LastName (@employee.Department.Name)</p>
-    }
+<div class="panel panel-default">
+  <div class="panel panel-heading">
+    <h3>All Employees</h3>
   </div>
-</body>
-</html>
+  <div class="panel-body">
+    <table class="table table-striped table-condensed table-bordered">
+      <tr>
+        <th class="text-right">Id</th>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Actions</th>
+      </tr>
+      @foreach (Flagstone.Employees.Employee employee in Model)
+      {
+          <tr>
+            <td class="text-right">@employee.Id</td>
+            <td>@Html.ActionLink($"{employee.FirstName} {employee.LastName}", "Edit", new { employee.Id })</td>
+            <td>@employee.Department.Name</td>
+            <td class="text-center">
+              @using (Html.BeginForm("Delete", "Employee"))
+              {
+                  @Html.Hidden("Id", employee.Id)
+                  <input type="submit" class="btn btn-default btn-xs" value="Delete" />
+              }
+            </td>
+          </tr>
+      }
+    </table>
+    <div class="panel-footer">
+      @Html.ActionLink("Add new employee", "Create", null, new { @class = "btn btn-default" })
+    </div>
+  </div>
+</div>
