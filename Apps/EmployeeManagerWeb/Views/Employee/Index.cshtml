@@ -1,0 +1,21 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width" />
+  <title>Index</title>
+</head>
+<body>
+  <h2>Employees</h2>
+  <div>
+    @foreach (Flagstone.Employees.Employee employee in Model)
+    {
+        <p>@employee.FirstName @employee.LastName (@employee.Department.Name)</p>
+    }
+  </div>
+</body>
+</html>
