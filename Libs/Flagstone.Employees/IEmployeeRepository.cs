@@ -9,7 +9,9 @@ namespace Flagstone.Employees
     public interface IEmployeeRepository : IDisposable
     {
         IEnumerable<Employee> GetAll();
-        IEnumerable<Employee> GetByDepartmentName(string departmentName);
+        IEnumerable<Employee> GetAllByDepartmentName(string departmentName);
+
+        Employee Get(long employeeId);
 
         long AddEmployee(Employee employee);
 

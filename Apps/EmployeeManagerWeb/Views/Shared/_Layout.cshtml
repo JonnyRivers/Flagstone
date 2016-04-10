@@ -10,8 +10,9 @@
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+        <div class="container-fluid">
             <div class="navbar-header">
+                <label class="navbar-text">Employee Manager</label>
                 @Html.ActionLink("Employees", "Index", "Employee", new { area = "" }, new { @class = "navbar-brand" })
                 @Html.ActionLink("Departments", "Index", "Department", new { area = "" }, new { @class = "navbar-brand" })
             </div>

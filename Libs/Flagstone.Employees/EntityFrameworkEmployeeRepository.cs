@@ -20,9 +20,16 @@ namespace Flagstone.Employees
             return m_dbContext.Employees.ToArray();
         }
 
-        public IEnumerable<Employee> GetByDepartmentName(string departmentName)
+        public IEnumerable<Employee> GetAllByDepartmentName(string departmentName)
         {
             return m_dbContext.Employees.Where(e => e.Department.Name == departmentName).ToArray();
+        }
+
+        public Employee Get(long employeeId)
+        {
+            Employee storedEmployee = m_dbContext.Employees.First(e => e.Id == employeeId);
+
+            return storedEmployee;
         }
 
         public long AddEmployee(Employee employee)

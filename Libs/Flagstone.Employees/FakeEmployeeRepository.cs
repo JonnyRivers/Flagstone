@@ -81,9 +81,14 @@ namespace Flagstone.Employees
             return m_employees.Values.ToArray();
         }
 
-        public IEnumerable<Employee> GetByDepartmentName(string departmentName)
+        public IEnumerable<Employee> GetAllByDepartmentName(string departmentName)
         {
             return m_employees.Values.Where(e => e.Department.Name == departmentName).ToArray();
+        }
+
+        public Employee Get(long employeeId)
+        {
+            return m_employees[employeeId];
         }
 
         public long AddEmployee(Employee employee)

@@ -1,0 +1,14 @@
+﻿@model EmployeeManagerWeb.ViewModels.EditEmployeeViewModel
+
+@{
+    ViewBag.Title = "Edit " + Model.FirstName + " " + Model.LastName;
+}
+
+<div>
+  @using (Html.BeginForm())
+  {
+      <p>First name: @Html.TextBoxFor(x => x.FirstName) </p>
+      <p>Last name: @Html.TextBoxFor(x => x.LastName) </p>
+      <input type="submit" value="Submit" />
+  }
+</div>
