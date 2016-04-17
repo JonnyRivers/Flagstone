@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-using Flagstone.Employees;
+using Flagstone.Data.Employees;
 
 
 namespace EmployeeManagerWeb.ViewModels

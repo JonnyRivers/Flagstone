@@ -4,32 +4,37 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-using Flagstone.Employees;
+using Flagstone.Data.Employees;
 
 namespace EmployeeManagerWeb.Controllers
 {
     public class EmployeeController : Controller
     {
-        private IDepartmentRepository m_departmentRepository;
-        private IEmployeeRepository m_empoyeeRepository;
+        private IUnitOfWork m_unitOfWork;
 
-        public EmployeeController(IDepartmentRepository departmentRepository, IEmployeeRepository employeeRepository)
+        public EmployeeController()
         {
-            m_departmentRepository = departmentRepository;
-            m_empoyeeRepository = employeeRepository;
+            m_unitOfWork = new EFUnitOfWork(new EmployeesDbContext());
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            m_unitOfWork.Dispose();
+
+            base.Dispose(disposing);
         }
 
         // GET: Employee
         public ActionResult Index()
         {
-            return View(m_empoyeeRepository.GetAll());
+            return View(m_unitOfWork.Employees.GetAll());
         }
 
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            Employee storedEmployee = m_empoyeeRepository.Get(id);
-            IEnumerable<Department> departments = m_departmentRepository.GetAll();
+            Employee storedEmployee = m_unitOfWork.Employees.Get(id);
+            IEnumerable<Department> departments = m_unitOfWork.Departments.GetAll();
             ViewModels.EditEmployeeViewModel viewModel = new ViewModels.EditEmployeeViewModel(storedEmployee, departments);
             return View(viewModel);
         }
@@ -37,10 +42,10 @@ namespace EmployeeManagerWeb.Controllers
         [HttpPost]
         public ActionResult Edit(ViewModels.EditEmployeeViewModel viewModel)
         {
-            Employee storedEmployee = m_empoyeeRepository.Get(viewModel.Id);
+            Employee storedEmployee = m_unitOfWork.Employees.Get((int)viewModel.Id);
             storedEmployee.FirstName = viewModel.FirstName;
             storedEmployee.LastName = viewModel.LastName;
-            m_empoyeeRepository.UpdateEmployee(storedEmployee);
+            m_unitOfWork.Complete();
 
             return RedirectToAction("Index");
         }

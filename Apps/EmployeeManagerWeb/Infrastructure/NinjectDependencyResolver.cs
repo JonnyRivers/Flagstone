@@ -5,8 +5,6 @@ using System.Web.Mvc;
 
 using Ninject;
 
-using Flagstone.Employees;
-
 namespace EmployeeManagerWeb.Infrastructure
 {
     public class NinjectDependencyResolver : IDependencyResolver
@@ -31,8 +29,7 @@ namespace EmployeeManagerWeb.Infrastructure
 
         private void AddBindings()
         {
-            m_kernel.Bind<IDepartmentRepository>().To<FakeDepartmentRepository>().InSingletonScope();
-            m_kernel.Bind<IEmployeeRepository>().To<FakeEmployeeRepository>().InSingletonScope();
+            // This is no longer required
         }
     }
 }

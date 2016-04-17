@@ -192,9 +192,13 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Libs\Flagstone.Employees\Flagstone.Employees.csproj">
-      <Project>{3224fc23-5432-42af-9a73-dd55f8f80f79}</Project>
-      <Name>Flagstone.Employees</Name>
+    <ProjectReference Include="..\..\Libs\Flagstone.Data.Employees\Flagstone.Data.Employees.csproj">
+      <Project>{acbe9451-6c59-4cd6-a902-770aaa1360ca}</Project>
+      <Name>Flagstone.Data.Employees</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libs\Flagstone.Data\Flagstone.Data.csproj">
+      <Project>{4cb48c7d-3a06-49f8-aecf-01dab40e8181}</Project>
+      <Name>Flagstone.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

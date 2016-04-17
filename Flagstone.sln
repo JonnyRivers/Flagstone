@@ -23,6 +23,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flagstone.WPF", "Libs\Flags
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeManagerWeb", "Apps\EmployeeManagerWeb\EmployeeManagerWeb.csproj", "{ADDE81B8-E812-4B5F-998F-F14DA20279DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flagstone.Data", "Libs\Flagstone.Data\Flagstone.Data.csproj", "{4CB48C7D-3A06-49F8-AECF-01DAB40E8181}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flagstone.Data.Employees", "Libs\Flagstone.Data.Employees\Flagstone.Data.Employees.csproj", "{ACBE9451-6C59-4CD6-A902-770AAA1360CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +61,14 @@ Global
 		{ADDE81B8-E812-4B5F-998F-F14DA20279DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADDE81B8-E812-4B5F-998F-F14DA20279DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADDE81B8-E812-4B5F-998F-F14DA20279DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CB48C7D-3A06-49F8-AECF-01DAB40E8181}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CB48C7D-3A06-49F8-AECF-01DAB40E8181}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CB48C7D-3A06-49F8-AECF-01DAB40E8181}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CB48C7D-3A06-49F8-AECF-01DAB40E8181}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACBE9451-6C59-4CD6-A902-770AAA1360CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACBE9451-6C59-4CD6-A902-770AAA1360CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACBE9451-6C59-4CD6-A902-770AAA1360CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACBE9451-6C59-4CD6-A902-770AAA1360CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,5 +81,7 @@ Global
 		{A500E45E-EF4F-4953-8E56-E1518AE001B8} = {C2CC6649-4659-40BA-82D9-8FE59AA92243}
 		{E5A7D2BE-0711-41B1-BED6-FDA62BD84F7A} = {B40E98AA-4AD4-44F5-895C-3D6471F1CD01}
 		{ADDE81B8-E812-4B5F-998F-F14DA20279DC} = {C2CC6649-4659-40BA-82D9-8FE59AA92243}
+		{4CB48C7D-3A06-49F8-AECF-01DAB40E8181} = {B40E98AA-4AD4-44F5-895C-3D6471F1CD01}
+		{ACBE9451-6C59-4CD6-A902-770AAA1360CA} = {B40E98AA-4AD4-44F5-895C-3D6471F1CD01}
 	EndGlobalSection
 EndGlobal
