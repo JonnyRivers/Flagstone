@@ -8,10 +8,11 @@ namespace Flagstone.Data.Employees
 {
     public class FakeUnitOfWork : IUnitOfWork
     {
-        public FakeUnitOfWork()
+        static FakeUnitOfWork()
         {
-            Departments = new FakeDepartmentRepository();
-            Employees = new FakeEmployeeRepository();
+            // This isn't thread-safe.  At all.  Is it good enough?
+            s_departmentRepository = new FakeDepartmentRepository();
+            s_employeeRepository = new FakeEmployeeRepository();
 
             var toolsDepartment = new Department()
             {
@@ -24,8 +25,8 @@ namespace Flagstone.Data.Employees
                 Name = "Engine"
             };
 
-            Departments.Add(toolsDepartment);
-            Departments.Add(engineDepartment);
+            s_departmentRepository.Add(toolsDepartment);
+            s_departmentRepository.Add(engineDepartment);
 
             var jonnyRivers = new Employee()
             {
@@ -55,9 +56,18 @@ namespace Flagstone.Data.Employees
                 Department = engineDepartment
             };
 
-            Employees.Add(jonnyRivers);
-            Employees.Add(brendenBooth);
-            Employees.Add(alanWolfe);
+            s_employeeRepository.Add(jonnyRivers);
+            s_employeeRepository.Add(brendenBooth);
+            s_employeeRepository.Add(alanWolfe);
+        }
+
+        private static FakeDepartmentRepository s_departmentRepository;
+        private static FakeEmployeeRepository s_employeeRepository;
+
+        public FakeUnitOfWork()
+        {
+            Departments = s_departmentRepository;
+            Employees = s_employeeRepository;
         }
 
         public IDepartmentRepository Departments { get; }
@@ -65,8 +75,7 @@ namespace Flagstone.Data.Employees
 
         public void Complete()
         {
-            // JWR - this makes the fake rather shoddy as nothing persists
-            // We would need some static, thread-safe storage to fix this.
+            // We aren't repsecting the pattern.  At all.  Is it good enough?
         }
 
         public void Dispose()
