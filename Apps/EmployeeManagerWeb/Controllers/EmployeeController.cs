@@ -42,9 +42,19 @@ namespace EmployeeManagerWeb.Controllers
         [HttpPost]
         public ActionResult Edit(ViewModels.EditEmployeeViewModel viewModel)
         {
-            Employee storedEmployee = m_unitOfWork.Employees.Get((int)viewModel.Id);
+            Employee storedEmployee = m_unitOfWork.Employees.Get(viewModel.Id);
             storedEmployee.FirstName = viewModel.FirstName;
             storedEmployee.LastName = viewModel.LastName;
+            m_unitOfWork.Complete();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            Employee storedEmployee = m_unitOfWork.Employees.Get(id);
+            m_unitOfWork.Employees.Remove(storedEmployee);
             m_unitOfWork.Complete();
 
             return RedirectToAction("Index");
