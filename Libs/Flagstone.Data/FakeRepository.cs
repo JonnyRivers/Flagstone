@@ -17,10 +17,16 @@ namespace Flagstone.Data
         }
 
         protected abstract long GetPrimaryKey(TEntity entity);
+        protected abstract void SetPrimaryKey(TEntity entity, long primaryKey);
 
         public void Add(TEntity entity)
         {
-            m_entityMap.Add(GetPrimaryKey(entity), entity);
+            long primaryKey = GetPrimaryKey(entity);
+            if(primaryKey == 0) {
+                primaryKey = m_entityMap.Keys.Max() + 1;
+                SetPrimaryKey(entity, primaryKey);
+            }
+            m_entityMap.Add(primaryKey, entity);
         }
 
         public TEntity Get(long id)

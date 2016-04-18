@@ -5,7 +5,7 @@
 }
 
 <div>
-  @using (Html.BeginForm())
+  @using (Html.BeginForm("Edit", "Employee"))
   {
       <p>First name: @Html.TextBoxFor(x => x.FirstName) </p>
       <p>Last name: @Html.TextBoxFor(x => x.LastName) </p>

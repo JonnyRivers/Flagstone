@@ -42,9 +42,24 @@ namespace EmployeeManagerWeb.Controllers
         [HttpPost]
         public ActionResult Edit(ViewModels.EditEmployeeViewModel viewModel)
         {
-            Employee storedEmployee = m_unitOfWork.Employees.Get(viewModel.Id);
-            storedEmployee.FirstName = viewModel.FirstName;
-            storedEmployee.LastName = viewModel.LastName;
+            if(viewModel.Id == 0)
+            {
+                Employee newEmployee = new Employee {
+                    FirstName = viewModel.FirstName,
+                    LastName = viewModel.LastName,
+                    DateOfBirth = DateTime.Now,// HACK
+                    Department = m_unitOfWork.Departments.Get(1),// HACK
+                    DepartmentId = 1// HACK
+                };
+                m_unitOfWork.Employees.Add(newEmployee);
+            }
+            else
+            {
+                Employee storedEmployee = m_unitOfWork.Employees.Get(viewModel.Id);
+                storedEmployee.FirstName = viewModel.FirstName;
+                storedEmployee.LastName = viewModel.LastName;
+            }
+            
             m_unitOfWork.Complete();
 
             return RedirectToAction("Index");
@@ -58,6 +73,14 @@ namespace EmployeeManagerWeb.Controllers
             m_unitOfWork.Complete();
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Create()
+        {
+            Employee newEmployee = new Employee();
+            IEnumerable<Department> departments = m_unitOfWork.Departments.GetAll();
+            ViewModels.EditEmployeeViewModel viewModel = new ViewModels.EditEmployeeViewModel(newEmployee, departments);
+            return View("Edit", viewModel);
         }
     }
 }
