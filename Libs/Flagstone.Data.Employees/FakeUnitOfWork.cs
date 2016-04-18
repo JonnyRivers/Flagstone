@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Flagstone.Data.Employees
 {
+    // JWR - this is useful when testing without a staging server
     public class FakeUnitOfWork : IUnitOfWork
     {
         static FakeUnitOfWork()

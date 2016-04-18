@@ -7,38 +7,11 @@ using System.Threading.Tasks;
 
 namespace Flagstone.Data.Employees
 {
-    public class FakeEmployeeRepository : IEmployeeRepository
+    public class FakeEmployeeRepository : FakeRepository<Employee>, IEmployeeRepository
     {
-        private Dictionary<long, Employee> m_entityMap;
-
-        public FakeEmployeeRepository()
+        protected override long GetPrimaryKey(Employee entity)
         {
-            m_entityMap = new Dictionary<long, Employee>();
-        }
-
-        public void Add(Employee entity)
-        {
-            m_entityMap.Add(entity.Id, entity);
-        }
-
-        public Employee Get(long id)
-        {
-            return m_entityMap[id];
-        }
-
-        public IEnumerable<Employee> GetAll()
-        {
-            return m_entityMap.Values;
-        }
-
-        public void Remove(Employee entity)
-        {
-            m_entityMap.Remove(entity.Id);
-        }
-
-        public IEnumerable<Employee> Where(Expression<Func<Employee, bool>> predicate)
-        {
-            return m_entityMap.Values.Where(predicate.Compile());
+            return entity.Id;
         }
     }
 }
