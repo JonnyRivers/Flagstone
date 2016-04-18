@@ -10,6 +10,7 @@ namespace Flagstone.Data.Employees
     {
         private EmployeesDbContext m_dbContext;
 
+        // JWR - this could be internal.  Should it be?
         public EFUnitOfWork(EmployeesDbContext dbContext)
         {
             m_dbContext = dbContext;
