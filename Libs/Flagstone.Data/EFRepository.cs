@@ -17,7 +17,7 @@ namespace Flagstone.Data
             m_dbContext = dbContext;
         }
 
-        public TEntity Get(int id)
+        public TEntity Get(long id)
         {
             return m_dbContext.Set<TEntity>().Find(id);
         }

@@ -31,7 +31,8 @@ namespace EmployeeManagerWeb.Infrastructure
 
         private void AddBindings()
         {
-            m_kernel.Bind<IUnitOfWorkFactory>().To<EFUnitOfWorkFactory>().InSingletonScope();
+            //m_kernel.Bind<IUnitOfWorkFactory>().To<EFUnitOfWorkFactory>();
+            m_kernel.Bind<IUnitOfWorkFactory>().To<FakeUnitOfWorkFactory>().InSingletonScope();
         }
     }
 }

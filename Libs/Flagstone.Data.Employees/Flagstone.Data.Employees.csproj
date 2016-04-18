@@ -72,6 +72,10 @@
     <Compile Include="Employee.cs">
       <DependentUpon>EFModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="FakeDepartmentRepository.cs" />
+    <Compile Include="FakeEmployeeRepository.cs" />
+    <Compile Include="FakeUnitOfWork.cs" />
+    <Compile Include="FakeUnitOfWorkFactory.cs" />
     <Compile Include="IDepartmentRepository.cs" />
     <Compile Include="IEmployeeRepository.cs" />
     <Compile Include="IUnitOfWork.cs" />
