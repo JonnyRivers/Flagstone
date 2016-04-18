@@ -12,9 +12,9 @@ namespace EmployeeManagerWeb.Controllers
     {
         private IUnitOfWork m_unitOfWork;
 
-        public EmployeeController()
+        public EmployeeController(IUnitOfWorkFactory unitOfWorkFactory)
         {
-            m_unitOfWork = new EFUnitOfWork(new EmployeesDbContext());
+            m_unitOfWork = unitOfWorkFactory.Create();
         }
 
         protected override void Dispose(bool disposing)
