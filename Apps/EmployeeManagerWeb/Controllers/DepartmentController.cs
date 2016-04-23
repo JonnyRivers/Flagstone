@@ -24,7 +24,7 @@ namespace EmployeeManagerWeb.Controllers
             base.Dispose(disposing);
         }
 
-        // GET: Employee
+        // GET: Department
         public ActionResult Index()
         {
             return View(m_unitOfWork.Departments.GetAll());
