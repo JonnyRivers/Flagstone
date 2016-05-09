@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using System.ComponentModel.DataAnnotations;
+
 using Flagstone.Data.Employees;
 
 
@@ -22,6 +24,8 @@ namespace EmployeeManagerWeb.ViewModels
             Id = employee.Id;
             FirstName = employee.FirstName;
             LastName = employee.LastName;
+            DateOfBirth = employee.DateOfBirth;
+            Department = employee.Department;
 
             Departments = departments.Select(
                 x => new SelectListItem {
@@ -36,6 +40,12 @@ namespace EmployeeManagerWeb.ViewModels
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime DateOfBirth { get; set; }
+
+        public Department Department { get; set; }
         
 
         public IEnumerable<SelectListItem> Departments { get; set; }
