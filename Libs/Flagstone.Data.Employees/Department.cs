@@ -20,7 +20,7 @@ namespace Flagstone.Data.Employees
             this.Employees = new HashSet<Employee>();
         }
     
-        public long Id { get; set; }
+        public long DepartmentId { get; set; }
         public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -21,7 +21,7 @@ namespace EmployeeManagerWeb.ViewModels
         // Used to construct view model from model (M->VM).  Should this be here?
         public EditEmployeeViewModel(Employee employee, IEnumerable<Department> departments)
         {
-            Id = employee.Id;
+            EmployeeId = employee.EmployeeId;
             FirstName = employee.FirstName;
             LastName = employee.LastName;
             DateOfBirth = employee.DateOfBirth;
@@ -29,14 +29,14 @@ namespace EmployeeManagerWeb.ViewModels
 
             DepartmentItems = departments.Select(
                 x => new SelectListItem {
-                    Value = x.Id.ToString(),
+                    Value = x.DepartmentId.ToString(),
                     Text = x.Name
                 }
             );
         }
 
         [HiddenInput(DisplayValue=false)]
-        public long Id { get; set; }
+        public long EmployeeId { get; set; }
 
         public string FirstName { get; set; }
         public string LastName { get; set; }

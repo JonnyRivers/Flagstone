@@ -14,7 +14,7 @@ namespace Flagstone.Data.Employees
     
     public partial class Employee
     {
-        public long Id { get; set; }
+        public long EmployeeId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public System.DateTime DateOfBirth { get; set; }

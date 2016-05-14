@@ -17,12 +17,12 @@ namespace Flagstone.Data.Employees
 
             var toolsDepartment = new Department()
             {
-                Id = 1,
+                DepartmentId = 1,
                 Name = "Tools"
             };
             var engineDepartment = new Department()
             {
-                Id = 2,
+                DepartmentId = 2,
                 Name = "Engine"
             };
 
@@ -31,29 +31,29 @@ namespace Flagstone.Data.Employees
 
             var jonnyRivers = new Employee()
             {
-                Id = 1,
+                EmployeeId = 1,
                 FirstName = "Jonny",
                 LastName = "Rivers",
                 DateOfBirth = new DateTime(1979, 8, 16),
-                DepartmentId = toolsDepartment.Id,
+                DepartmentId = toolsDepartment.DepartmentId,
                 Department = toolsDepartment
             };
             var brendenBooth = new Employee()
             {
-                Id = 2,
+                EmployeeId = 2,
                 FirstName = "Brenden",
                 LastName = "Booth",
                 DateOfBirth = new DateTime(1991, 4, 9),
-                DepartmentId = toolsDepartment.Id,
+                DepartmentId = toolsDepartment.DepartmentId,
                 Department = toolsDepartment
             };
             var alanWolfe = new Employee()
             {
-                Id = 3,
+                EmployeeId = 3,
                 FirstName = "Alan",
                 LastName = "Wolfe",
                 DateOfBirth = new DateTime(1983, 3, 6),
-                DepartmentId = engineDepartment.Id,
+                DepartmentId = engineDepartment.DepartmentId,
                 Department = engineDepartment
             };
 

@@ -42,7 +42,7 @@ namespace EmployeeManagerWeb.Controllers
         [HttpPost]
         public ActionResult Edit(Department editedDepartment)
         {
-            if(editedDepartment.Id == 0)
+            if(editedDepartment.DepartmentId == 0)
             {
                 Department newDepartment = new Department
                 {
@@ -52,7 +52,7 @@ namespace EmployeeManagerWeb.Controllers
             }
             else
             {
-                Department storedDepartment = m_unitOfWork.Departments.Get(editedDepartment.Id);
+                Department storedDepartment = m_unitOfWork.Departments.Get(editedDepartment.DepartmentId);
                 storedDepartment.Name = editedDepartment.Name;
             }
 

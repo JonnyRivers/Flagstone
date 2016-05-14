@@ -7,6 +7,7 @@
 <div>
   @using (Html.BeginForm("Edit", "Employee"))
   {
+      @Html.HiddenFor(x => x.EmployeeId)
       <p>First name: @Html.TextBoxFor(x => x.FirstName) </p>
       <p>Last name: @Html.TextBoxFor(x => x.LastName) </p>
       <p>Date of birth: @Html.EditorFor(x => x.DateOfBirth) </p>

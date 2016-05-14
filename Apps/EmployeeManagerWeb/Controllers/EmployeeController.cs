@@ -42,7 +42,7 @@ namespace EmployeeManagerWeb.Controllers
         [HttpPost]
         public ActionResult Edit(ViewModels.EditEmployeeViewModel viewModel)
         {
-            if(viewModel.Id == 0)
+            if(viewModel.EmployeeId == 0)
             {
                 Employee newEmployee = new Employee {
                     FirstName = viewModel.FirstName,
@@ -54,7 +54,7 @@ namespace EmployeeManagerWeb.Controllers
             }
             else
             {
-                Employee storedEmployee = m_unitOfWork.Employees.Get(viewModel.Id);
+                Employee storedEmployee = m_unitOfWork.Employees.Get(viewModel.EmployeeId);
                 storedEmployee.FirstName = viewModel.FirstName;
                 storedEmployee.LastName = viewModel.LastName;
                 storedEmployee.DateOfBirth = viewModel.DateOfBirth;

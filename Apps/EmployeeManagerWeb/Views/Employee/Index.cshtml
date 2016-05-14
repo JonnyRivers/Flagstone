@@ -17,13 +17,13 @@
       @foreach (Flagstone.Data.Employees.Employee employee in Model)
       {
           <tr>
-            <td class="text-right">@employee.Id</td>
-            <td>@Html.ActionLink($"{employee.FirstName} {employee.LastName}", "Edit", new { employee.Id })</td>
+            <td class="text-right">@employee.EmployeeId</td>
+            <td>@Html.ActionLink($"{employee.FirstName} {employee.LastName}", "Edit", new { employee.EmployeeId })</td>
             <td>@employee.Department.Name</td>
             <td class="text-center">
               @using (Html.BeginForm("Delete", "Employee"))
               {
-                  @Html.Hidden("id", employee.Id)
+                  @Html.Hidden("id", employee.EmployeeId)
                   <input type="submit" class="btn btn-default btn-xs" value="Delete" />
               }
             </td>

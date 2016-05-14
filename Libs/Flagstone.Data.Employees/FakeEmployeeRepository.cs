@@ -11,12 +11,12 @@ namespace Flagstone.Data.Employees
     {
         protected override long GetPrimaryKey(Employee entity)
         {
-            return entity.Id;
+            return entity.EmployeeId;
         }
 
         protected override void SetPrimaryKey(Employee entity, long primaryKey)
         {
-            entity.Id = primaryKey;
+            entity.EmployeeId = primaryKey;
         }
     }
 }
