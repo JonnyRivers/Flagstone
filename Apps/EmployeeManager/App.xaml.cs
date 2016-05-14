@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-using Flagstone.Employees;
+using Flagstone.Data.Employees;
 using Flagstone.WPF;
 
 namespace EmployeeManager
@@ -16,20 +16,22 @@ namespace EmployeeManager
     /// </summary>
     public partial class App : Application
     {
-        private IDepartmentRepository m_departmentRepository;
-        private IEmployeeRepository m_employeeRepository;
+        private IUnitOfWorkFactory m_unitOfWorkFactory;
 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
             // Compose DAL
-            m_departmentRepository = new EntityFrameworkDepartmentRepository();
-            m_employeeRepository = new EntityFrameworkEmployeeRepository();
+#if DEBUG
+            m_unitOfWorkFactory = new FakeUnitOfWorkFactory();
+#else
+            m_unitOfWorkFactory = new EFUnitOfWorkFactory();
+#endif
 
             // Compose view model
-            var employeeListViewModel = new ViewModel.EmployeeListViewModel(m_departmentRepository, m_employeeRepository);
-            var departmentListViewModel = new ViewModel.DepartmentListViewModel(m_departmentRepository);
+            var employeeListViewModel = new ViewModel.EmployeeListViewModel(m_unitOfWorkFactory);
+            var departmentListViewModel = new ViewModel.DepartmentListViewModel(m_unitOfWorkFactory);
             var mainWindowViewModel = new ViewModel.MainWindowViewModel(employeeListViewModel, departmentListViewModel);
 
             // Compose view
@@ -43,9 +45,6 @@ namespace EmployeeManager
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
-
-            m_employeeRepository.Dispose();
-            m_departmentRepository.Dispose();
         }
     }
 }

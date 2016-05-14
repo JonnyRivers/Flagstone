@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Flagstone.Employees;
+using Flagstone.Data.Employees;
 using Flagstone.WPF;
 
 namespace EmployeeManager.ViewModel
 {
     public class DesignTimeDepartmentListViewModel : ViewModelBase
     {
-        private readonly IDepartmentRepository m_departmentRepository;
+        private readonly IUnitOfWorkFactory m_unitOfWorkFactory;
 
         public ObservableCollection<DepartmentViewModel> AllDepartments
         {
@@ -22,17 +22,21 @@ namespace EmployeeManager.ViewModel
 
         public DesignTimeDepartmentListViewModel()
         {
-            m_departmentRepository = new FakeDepartmentRepository();
+            m_unitOfWorkFactory = new FakeUnitOfWorkFactory();
 
-            AllDepartments = new ObservableCollection<DepartmentViewModel>(
-                m_departmentRepository.GetAll().Select(
-                    department => new DepartmentViewModel(
-                        m_departmentRepository,
-                        department.Id,
-                        department.Name
+            using(IUnitOfWork unitOfWork = m_unitOfWorkFactory.Create())
+            {
+                AllDepartments = new ObservableCollection<DepartmentViewModel>(
+                    unitOfWork.Departments.GetAll().Select(
+                        department => new DepartmentViewModel(
+                            m_unitOfWorkFactory,
+                            department.DepartmentId,
+                            department.Name
+                        )
                     )
-                )
-            );
+                );
+            }
+            
         }
     }
 }

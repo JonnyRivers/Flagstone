@@ -6,14 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-using Flagstone.Employees;
+using Flagstone.Data.Employees;
 using Flagstone.WPF;
 
 namespace EmployeeManager.ViewModel
 {
     public class EmployeeViewModel : ViewModelBase
     {
-        private readonly IEmployeeRepository m_employeeRepository;
+        private readonly IUnitOfWorkFactory m_unitOfWorkFactory;
 
         private const long c_invalidId = -1;
 
@@ -102,9 +102,9 @@ namespace EmployeeManager.ViewModel
             }
         }
 
-        public EmployeeViewModel(IEmployeeRepository employeeRepository, DepartmentViewModel deparment) : 
+        public EmployeeViewModel(IUnitOfWorkFactory unitOfWorkFactory, DepartmentViewModel deparment) : 
             this(
-                employeeRepository,
+                unitOfWorkFactory,
                 c_invalidId,
                 "New",
                 "Employee",
@@ -115,12 +115,12 @@ namespace EmployeeManager.ViewModel
             m_isDirty = true;
         }
 
-        public EmployeeViewModel(IEmployeeRepository employeeRepository, long id, string firstName, string lastName, DateTime dateOfBirth, DepartmentViewModel deparment)
+        public EmployeeViewModel(IUnitOfWorkFactory unitOfWorkFactory, long id, string firstName, string lastName, DateTime dateOfBirth, DepartmentViewModel deparment)
         {
-            if (employeeRepository == null)
-                throw new ArgumentNullException("employeeRepository");
+            if (unitOfWorkFactory == null)
+                throw new ArgumentNullException("unitOfWorkFactory");
 
-            m_employeeRepository = employeeRepository;
+            m_unitOfWorkFactory = unitOfWorkFactory;
 
             m_id = id;
             m_firstName = firstName;
@@ -153,19 +153,24 @@ namespace EmployeeManager.ViewModel
                     DateOfBirth = this.DateOfBirth,
                     DepartmentId = this.Department.Id
                 };
-                this.Id = m_employeeRepository.AddEmployee(newEmployee);
+                using (IUnitOfWork unitOfWork = m_unitOfWorkFactory.Create())
+                {
+                    unitOfWork.Employees.Add(newEmployee);
+                    this.Id = newEmployee.DepartmentId;
+                    unitOfWork.Complete();
+                }
             }
             else
             {
-                Employee updatedEmployee = new Employee
+                using (IUnitOfWork unitOfWork = m_unitOfWorkFactory.Create())
                 {
-                    Id = this.Id,
-                    FirstName = this.FirstName,
-                    LastName = this.LastName,
-                    DateOfBirth = this.DateOfBirth,
-                    DepartmentId = this.Department.Id
-                };
-                m_employeeRepository.UpdateEmployee(updatedEmployee);
+                    Employee storedEmployee = unitOfWork.Employees.Get(this.Id);
+                    storedEmployee.FirstName = this.FirstName;
+                    storedEmployee.LastName = this.LastName;
+                    storedEmployee.DateOfBirth = this.DateOfBirth;
+                    storedEmployee.DepartmentId = this.Department.Id;
+                    unitOfWork.Complete();
+                }
             }
 
             IsDirty = false;

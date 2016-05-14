@@ -6,15 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-using Flagstone.Employees;
+using Flagstone.Data.Employees;
 using Flagstone.WPF;
 
 namespace EmployeeManager.ViewModel
 {
     public class EmployeeListViewModel : ViewModelBase
     {
-        private readonly IDepartmentRepository m_departmentRepository;
-        private readonly IEmployeeRepository m_employeeRepository;
+        private readonly IUnitOfWorkFactory m_unitOfWorkFactory;
 
         private EmployeeViewModel m_selectedEmployee;
 
@@ -65,7 +64,7 @@ namespace EmployeeManager.ViewModel
 
         private void AddEmployeeExecute(object parameter)
         {
-            var newEmployee = new EmployeeViewModel(m_employeeRepository, AllDepartments.First());
+            var newEmployee = new EmployeeViewModel(m_unitOfWorkFactory, AllDepartments.First());
 
             AllEmployees.Add(newEmployee);
 
@@ -75,7 +74,12 @@ namespace EmployeeManager.ViewModel
         private void DeleteEmployeeExecute(object parameter)
         {
             // update model
-            m_employeeRepository.DeleteEmployee(SelectedEmployee.Id);
+            using(IUnitOfWork unitOfWork = m_unitOfWorkFactory.Create())
+            {
+                Employee storedEmployee = unitOfWork.Employees.Get(SelectedEmployee.Id);
+                unitOfWork.Employees.Remove(storedEmployee);
+                unitOfWork.Complete();
+            }
 
             // update viewmodel
             AllEmployees.Remove(SelectedEmployee);
@@ -87,38 +91,38 @@ namespace EmployeeManager.ViewModel
             return IsSelectionValid;
         }
 
-        public EmployeeListViewModel(IDepartmentRepository departmentRepository, IEmployeeRepository employeeRepository)
+        public EmployeeListViewModel(IUnitOfWorkFactory unitOfWorkFactory)
         {
-            if (departmentRepository == null)
-                throw new ArgumentNullException("departmentRepository");
+            if (unitOfWorkFactory == null)
+                throw new ArgumentNullException("unitOfWorkFactory");
 
-            if (employeeRepository == null)
-                throw new ArgumentNullException("employeeRepository");
+            m_unitOfWorkFactory = unitOfWorkFactory;
 
-            m_departmentRepository = departmentRepository;
-            m_employeeRepository = employeeRepository;
+            using (IUnitOfWork unitOfWork = m_unitOfWorkFactory.Create())
+            {
 
-            AllDepartments = new ObservableCollection<DepartmentViewModel>(
-                m_departmentRepository.GetAll().Select(
-                    department => new DepartmentViewModel(
-                        m_departmentRepository,
-                        department.Id, 
-                        department.Name
+                AllDepartments = new ObservableCollection<DepartmentViewModel>(
+                    unitOfWork.Departments.GetAll().Select(
+                        department => new DepartmentViewModel(
+                            m_unitOfWorkFactory,
+                            department.DepartmentId,
+                            department.Name
+                        )
                     )
-                )
-            );
+                );
 
-            AllEmployees = new ObservableCollection<EmployeeViewModel>(
-                m_employeeRepository.GetAll().Select(
-                    employee => new EmployeeViewModel(
-                        m_employeeRepository, 
-                        employee.Id, 
-                        employee.FirstName, 
-                        employee.LastName, 
-                        employee.DateOfBirth, AllDepartments.First(d => d.Id == employee.DepartmentId)
+                AllEmployees = new ObservableCollection<EmployeeViewModel>(
+                    unitOfWork.Employees.GetAll().Select(
+                        employee => new EmployeeViewModel(
+                            m_unitOfWorkFactory,
+                            employee.EmployeeId,
+                            employee.FirstName,
+                            employee.LastName,
+                            employee.DateOfBirth, AllDepartments.First(d => d.Id == employee.DepartmentId)
+                        )
                     )
-                )
-            );
+                );
+            }
 
             SelectedEmployee = null;
 

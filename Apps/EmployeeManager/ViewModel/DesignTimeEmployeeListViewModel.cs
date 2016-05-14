@@ -5,15 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Flagstone.Employees;
+using Flagstone.Data.Employees;
 using Flagstone.WPF;
 
 namespace EmployeeManager.ViewModel
 {
     public class DesignTimeEmployeeListViewModel : ViewModelBase
     {
-        private readonly IDepartmentRepository m_departmentRepository;
-        private readonly IEmployeeRepository m_employeeRepository;
+        private readonly IUnitOfWorkFactory m_unitOfWorkFactory;
 
         public ObservableCollection<DepartmentViewModel> AllDepartments
         {
@@ -29,30 +28,32 @@ namespace EmployeeManager.ViewModel
 
         public DesignTimeEmployeeListViewModel()
         {
-            m_departmentRepository = new FakeDepartmentRepository();
-            m_employeeRepository = new FakeEmployeeRepository();
+            m_unitOfWorkFactory = new FakeUnitOfWorkFactory();
 
-            AllDepartments = new ObservableCollection<DepartmentViewModel>(
-                m_departmentRepository.GetAll().Select(
-                    department => new DepartmentViewModel(
-                        m_departmentRepository,
-                        department.Id,
-                        department.Name
+            using(IUnitOfWork unitOfWork = m_unitOfWorkFactory.Create())
+            {
+                AllDepartments = new ObservableCollection<DepartmentViewModel>(
+                    unitOfWork.Departments.GetAll().Select(
+                        department => new DepartmentViewModel(
+                            m_unitOfWorkFactory,
+                            department.DepartmentId,
+                            department.Name
+                        )
                     )
-                )
-            );
+                );
 
-            AllEmployees = new ObservableCollection<EmployeeViewModel>(
-                m_employeeRepository.GetAll().Select(
-                    employee => new EmployeeViewModel(
-                        m_employeeRepository,
-                        employee.Id,
-                        employee.FirstName,
-                        employee.LastName,
-                        employee.DateOfBirth, AllDepartments.First(d => d.Id == employee.DepartmentId)
+                AllEmployees = new ObservableCollection<EmployeeViewModel>(
+                    unitOfWork.Employees.GetAll().Select(
+                        employee => new EmployeeViewModel(
+                            m_unitOfWorkFactory,
+                            employee.EmployeeId,
+                            employee.FirstName,
+                            employee.LastName,
+                            employee.DateOfBirth, AllDepartments.First(d => d.Id == employee.DepartmentId)
+                        )
                     )
-                )
-            );
+                );
+            }
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-using Flagstone.Employees;
+using Flagstone.Data.Employees;
 using Flagstone.WPF;
 
 
@@ -13,7 +13,7 @@ namespace EmployeeManager.ViewModel
 {
     public class DepartmentViewModel : ViewModelBase
     {
-        private readonly IDepartmentRepository m_departmentRepository;
+        private readonly IUnitOfWorkFactory m_unitOfWorkFactory;
 
         private const long c_invalidId = -1;
 
@@ -61,18 +61,18 @@ namespace EmployeeManager.ViewModel
             }
         }
 
-        public DepartmentViewModel(IDepartmentRepository departmentRepository)
-            : this(departmentRepository, c_invalidId, "New Department")
+        public DepartmentViewModel(IUnitOfWorkFactory unitOfWorkFactory)
+            : this(unitOfWorkFactory, c_invalidId, "New Department")
         {
             m_isDirty = true;
         }
 
-        public DepartmentViewModel(IDepartmentRepository departmentRepository, long id, string name)
+        public DepartmentViewModel(IUnitOfWorkFactory unitOfWorkFactory, long id, string name)
         {
-            if (departmentRepository == null)
-                throw new ArgumentNullException("departmentRepository");
+            if (unitOfWorkFactory == null)
+                throw new ArgumentNullException("unitOfWorkFactory");
 
-            m_departmentRepository = departmentRepository;
+            m_unitOfWorkFactory = unitOfWorkFactory;
 
             Id = id;
             Name = name;
@@ -100,16 +100,21 @@ namespace EmployeeManager.ViewModel
                 {
                     Name = this.Name
                 };
-                this.Id = m_departmentRepository.AddDepartment(newDepartment);
+                using (IUnitOfWork unitOfWork = m_unitOfWorkFactory.Create())
+                {
+                    unitOfWork.Departments.Add(newDepartment);
+                    this.Id = newDepartment.DepartmentId;
+                    unitOfWork.Complete();
+                }
             }
             else
             {
-                Department updatedDepartment = new Department
+                using (IUnitOfWork unitOfWork = m_unitOfWorkFactory.Create())
                 {
-                    Id = this.Id,
-                    Name = this.Name
-                };
-                m_departmentRepository.UpdateDepartment(updatedDepartment);
+                    Department storedDepartment = unitOfWork.Departments.Get(this.Id);
+                    storedDepartment.Name = this.Name;
+                    unitOfWork.Complete();
+                }
             }
 
             IsDirty = false;

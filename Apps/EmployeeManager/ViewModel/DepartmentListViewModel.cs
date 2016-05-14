@@ -6,14 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-using Flagstone.Employees;
+using Flagstone.Data.Employees;
 using Flagstone.WPF;
 
 namespace EmployeeManager.ViewModel
 {
     public class DepartmentListViewModel : ViewModelBase
     {
-        private readonly IDepartmentRepository m_departmentRepository;
+        private readonly IUnitOfWorkFactory m_unitOfWorkFactory;
 
         private DepartmentViewModel m_selectedDepartment;
 
@@ -58,7 +58,7 @@ namespace EmployeeManager.ViewModel
 
         private void AddDepartmentExecute(object parameter)
         {
-            var newDepartment = new DepartmentViewModel(m_departmentRepository);
+            var newDepartment = new DepartmentViewModel(m_unitOfWorkFactory);
 
             AllDepartments.Add(newDepartment);
 
@@ -68,7 +68,11 @@ namespace EmployeeManager.ViewModel
         private void DeleteDepartmentExecute(object parameter)
         {
             // update model
-            m_departmentRepository.DeleteDepartment(SelectedDepartment.Id);
+            using(IUnitOfWork unitOfWork = m_unitOfWorkFactory.Create()) {
+                Department storedDepartment = unitOfWork.Departments.Get(SelectedDepartment.Id);
+                unitOfWork.Departments.Remove(storedDepartment);
+                unitOfWork.Complete();
+            }
 
             // update viewmodel
             AllDepartments.Remove(SelectedDepartment);
@@ -80,19 +84,22 @@ namespace EmployeeManager.ViewModel
             return IsSelectionValid;
         }
 
-        public DepartmentListViewModel(IDepartmentRepository departmentRepository)
+        public DepartmentListViewModel(IUnitOfWorkFactory unitOfWorkFactory)
         {
-            m_departmentRepository = departmentRepository;
+            m_unitOfWorkFactory = unitOfWorkFactory;
 
-            AllDepartments = new ObservableCollection<DepartmentViewModel>(
-                m_departmentRepository.GetAll().Select(
-                    department => new DepartmentViewModel(
-                        m_departmentRepository,
-                        department.Id,
-                        department.Name
+            using (IUnitOfWork unitOfWork = m_unitOfWorkFactory.Create())
+            {
+                AllDepartments = new ObservableCollection<DepartmentViewModel>(
+                    unitOfWork.Departments.GetAll().Select(
+                        department => new DepartmentViewModel(
+                            m_unitOfWorkFactory,
+                            department.DepartmentId,
+                            department.Name
+                        )
                     )
-                )
-            );
+                );
+            }
 
             SelectedDepartment = null;
 
