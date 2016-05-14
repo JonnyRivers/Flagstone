@@ -44,13 +44,11 @@ namespace EmployeeManagerWeb.Controllers
         {
             if(viewModel.Id == 0)
             {
-                int firstDepartmentId = Int32.Parse(viewModel.Departments.First().Value);
-
                 Employee newEmployee = new Employee {
                     FirstName = viewModel.FirstName,
                     LastName = viewModel.LastName,
                     DateOfBirth = new DateTime(1970, 1, 1),
-                    DepartmentId = firstDepartmentId
+                    DepartmentId = viewModel.SelectedDepartmentId
                 };
                 m_unitOfWork.Employees.Add(newEmployee);
             }
@@ -60,8 +58,7 @@ namespace EmployeeManagerWeb.Controllers
                 storedEmployee.FirstName = viewModel.FirstName;
                 storedEmployee.LastName = viewModel.LastName;
                 storedEmployee.DateOfBirth = viewModel.DateOfBirth;
-                // TODO fix crash here
-                //storedEmployee.DepartmentId = viewModel.Department.Id;
+                storedEmployee.DepartmentId = viewModel.SelectedDepartmentId;
             }
             
             m_unitOfWork.Complete();

@@ -10,7 +10,7 @@
       <p>First name: @Html.TextBoxFor(x => x.FirstName) </p>
       <p>Last name: @Html.TextBoxFor(x => x.LastName) </p>
       <p>Date of birth: @Html.EditorFor(x => x.DateOfBirth) </p>
-      <p>Department: @Html.DropDownListFor(x => x.Department, Model.Departments) </p>
+      <p>Department: @Html.DropDownListFor(x => x.SelectedDepartmentId, Model.DepartmentItems) </p>
       <input type="submit" value="Submit" />
   }
 </div>

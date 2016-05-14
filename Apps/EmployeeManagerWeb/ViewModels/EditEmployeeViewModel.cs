@@ -25,9 +25,9 @@ namespace EmployeeManagerWeb.ViewModels
             FirstName = employee.FirstName;
             LastName = employee.LastName;
             DateOfBirth = employee.DateOfBirth;
-            Department = employee.Department;
+            SelectedDepartmentId = employee.DepartmentId;
 
-            Departments = departments.Select(
+            DepartmentItems = departments.Select(
                 x => new SelectListItem {
                     Value = x.Id.ToString(),
                     Text = x.Name
@@ -45,9 +45,9 @@ namespace EmployeeManagerWeb.ViewModels
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateOfBirth { get; set; }
 
-        public Department Department { get; set; }
+        public long SelectedDepartmentId { get; set; }
         
 
-        public IEnumerable<SelectListItem> Departments { get; set; }
+        public IEnumerable<SelectListItem> DepartmentItems { get; set; }
     }
 }
