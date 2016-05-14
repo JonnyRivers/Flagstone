@@ -20,4 +20,3 @@ namespace Flagstone.Data.Employees
         }
     }
 }
-;
