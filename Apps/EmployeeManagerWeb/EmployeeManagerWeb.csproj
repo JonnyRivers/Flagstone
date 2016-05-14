@@ -175,6 +175,7 @@
     </Compile>
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\EditDepartmentViewModel.cs" />
     <Compile Include="ViewModels\EditEmployeeViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

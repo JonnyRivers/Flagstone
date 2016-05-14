@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using EmployeeManagerWeb.ViewModels;
+
 using Flagstone.Data.Employees;
 
 namespace EmployeeManagerWeb.Controllers
@@ -24,36 +26,50 @@ namespace EmployeeManagerWeb.Controllers
             base.Dispose(disposing);
         }
 
-        // GET: Department
+        public ActionResult Create()
+        {
+            var viewModel = new EditDepartmentViewModel
+            {
+                DepartmentId = 0,
+                Name = "New Department"
+            };
+
+            return View("Edit", viewModel);
+        }
+
         public ActionResult Index()
         {
             return View(m_unitOfWork.Departments.GetAll());
         }
 
-        [HttpGet]
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int departmentId)
         {
-            // Directly using the Department like this seems wrong.
-            // We need to support validation.
-            Department storedDepartment = m_unitOfWork.Departments.Get(id);
-            return View(storedDepartment);
+            Department storedDepartment = m_unitOfWork.Departments.Get(departmentId);
+
+            var viewModel = new EditDepartmentViewModel
+            {
+                DepartmentId = storedDepartment.DepartmentId,
+                Name = storedDepartment.Name
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult Edit(Department editedDepartment)
+        public ActionResult Edit(EditDepartmentViewModel viewModel)
         {
-            if(editedDepartment.DepartmentId == 0)
+            if(viewModel.DepartmentId == 0)
             {
                 Department newDepartment = new Department
                 {
-                    Name = editedDepartment.Name
+                    Name = viewModel.Name
                 };
                 m_unitOfWork.Departments.Add(newDepartment);
             }
             else
             {
-                Department storedDepartment = m_unitOfWork.Departments.Get(editedDepartment.DepartmentId);
-                storedDepartment.Name = editedDepartment.Name;
+                Department storedDepartment = m_unitOfWork.Departments.Get(viewModel.DepartmentId);
+                storedDepartment.Name = viewModel.Name;
             }
 
             m_unitOfWork.Complete();
@@ -61,20 +77,10 @@ namespace EmployeeManagerWeb.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Create()
-        {
-            Department newDepartment = new Department
-            {
-                Name = "New Department"
-            };
-
-            return View("Edit", newDepartment);
-        }
-
         [HttpPost]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int departmentId)
         {
-            Department storedDepartment = m_unitOfWork.Departments.Get(id);
+            Department storedDepartment = m_unitOfWork.Departments.Get(departmentId);
             m_unitOfWork.Departments.Remove(storedDepartment);
             m_unitOfWork.Complete();
 

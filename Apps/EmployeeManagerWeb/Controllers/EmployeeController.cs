@@ -24,18 +24,53 @@ namespace EmployeeManagerWeb.Controllers
             base.Dispose(disposing);
         }
 
-        // GET: Employee
+        public ActionResult Create()
+        {
+            Employee newEmployee = new Employee();
+            IEnumerable<Department> departments = m_unitOfWork.Departments.GetAll();
+            var viewModel = new ViewModels.EditEmployeeViewModel
+            {
+                EmployeeId = 0,
+                FirstName = "New",
+                LastName = "Employee",
+                DateOfBirth = DateTime.Today,
+                SelectedDepartmentId = departments.First().DepartmentId,
+                DepartmentItems = departments.Select(
+                    x => new SelectListItem
+                    {
+                        Value = x.DepartmentId.ToString(),
+                        Text = x.Name
+                    }
+                )
+            };
+            return View("Edit", viewModel);
+        }
+
         public ActionResult Index()
         {
             return View(m_unitOfWork.Employees.GetAll());
         }
 
-        [HttpGet]
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int employeeId)
         {
-            Employee storedEmployee = m_unitOfWork.Employees.Get(id);
+            Employee storedEmployee = m_unitOfWork.Employees.Get(employeeId);
             IEnumerable<Department> departments = m_unitOfWork.Departments.GetAll();
-            ViewModels.EditEmployeeViewModel viewModel = new ViewModels.EditEmployeeViewModel(storedEmployee, departments);
+            var viewModel = new ViewModels.EditEmployeeViewModel
+            {
+                EmployeeId = storedEmployee.EmployeeId,
+                FirstName = storedEmployee.FirstName,
+                LastName = storedEmployee.LastName,
+                DateOfBirth = storedEmployee.DateOfBirth,
+                SelectedDepartmentId = storedEmployee.DepartmentId,
+                DepartmentItems = departments.Select(
+                    x => new SelectListItem
+                    {
+                        Value = x.DepartmentId.ToString(),
+                        Text = x.Name
+                    }
+                )
+            };
+
             return View(viewModel);
         }
 
@@ -47,7 +82,7 @@ namespace EmployeeManagerWeb.Controllers
                 Employee newEmployee = new Employee {
                     FirstName = viewModel.FirstName,
                     LastName = viewModel.LastName,
-                    DateOfBirth = new DateTime(1970, 1, 1),
+                    DateOfBirth = viewModel.DateOfBirth,
                     DepartmentId = viewModel.SelectedDepartmentId
                 };
                 m_unitOfWork.Employees.Add(newEmployee);
@@ -67,21 +102,13 @@ namespace EmployeeManagerWeb.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int employeeId)
         {
-            Employee storedEmployee = m_unitOfWork.Employees.Get(id);
+            Employee storedEmployee = m_unitOfWork.Employees.Get(employeeId);
             m_unitOfWork.Employees.Remove(storedEmployee);
             m_unitOfWork.Complete();
 
             return RedirectToAction("Index");
-        }
-
-        public ActionResult Create()
-        {
-            Employee newEmployee = new Employee();
-            IEnumerable<Department> departments = m_unitOfWork.Departments.GetAll();
-            ViewModels.EditEmployeeViewModel viewModel = new ViewModels.EditEmployeeViewModel(newEmployee, departments);
-            return View("Edit", viewModel);
         }
     }
 }
