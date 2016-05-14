@@ -30,13 +30,24 @@ namespace EmployeeManager.ViewModel
             {
                 if (m_selectedDepartment != value)
                 {
+                    if(m_selectedDepartment != null)
+                        m_selectedDepartment.PropertyChanged -= OnSelectedDepartmentChanged;
+
                     m_selectedDepartment = value;
-                    OnPropertyChanged("SelectedDepartment");
-                    OnPropertyChanged("IsSelectionValid");
-                    // TODO - this seems heavy handed
+                    if (m_selectedDepartment != null)
+                        m_selectedDepartment.PropertyChanged += OnSelectedDepartmentChanged;
+
+                    OnPropertyChanged(nameof(SelectedDepartment));
+                    OnPropertyChanged(nameof(IsSelectionValid));
                     CommandManager.InvalidateRequerySuggested();
                 }
             }
+        }
+
+        private void OnSelectedDepartmentChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == "Id")
+                CommandManager.InvalidateRequerySuggested();
         }
 
         public bool IsSelectionValid
@@ -81,11 +92,14 @@ namespace EmployeeManager.ViewModel
 
         private bool DeleteDepartmentCanExecute(object parameter)
         {
-            return IsSelectionValid;
+            return (SelectedDepartment != null && SelectedDepartment.Id != -1);
         }
 
         public DepartmentListViewModel(IUnitOfWorkFactory unitOfWorkFactory)
         {
+            if (unitOfWorkFactory == null)
+                throw new ArgumentNullException(nameof(unitOfWorkFactory));
+
             m_unitOfWorkFactory = unitOfWorkFactory;
 
             using (IUnitOfWork unitOfWork = m_unitOfWorkFactory.Create())

@@ -36,13 +36,24 @@ namespace EmployeeManager.ViewModel
             {
                 if (m_selectedEmployee != value)
                 {
+                    if (m_selectedEmployee != null)
+                        m_selectedEmployee.PropertyChanged -= OnSelectedEmployeeChanged;
+
                     m_selectedEmployee = value;
-                    OnPropertyChanged("SelectedEmployee");
-                    OnPropertyChanged("IsSelectionValid");
-                    // TODO - this seems heavy handed
+                    if (m_selectedEmployee != null)
+                        m_selectedEmployee.PropertyChanged += OnSelectedEmployeeChanged;
+                    
+                    OnPropertyChanged(nameof(SelectedEmployee));
+                    OnPropertyChanged(nameof(IsSelectionValid));
                     CommandManager.InvalidateRequerySuggested();
                 }
             }
+        }
+
+        private void OnSelectedEmployeeChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Id")
+                CommandManager.InvalidateRequerySuggested();
         }
 
         public bool IsSelectionValid
@@ -88,13 +99,13 @@ namespace EmployeeManager.ViewModel
 
         private bool DeleteEmployeeCanExecute(object parameter)
         {
-            return IsSelectionValid;
+            return (SelectedEmployee != null && SelectedEmployee.Id != -1);
         }
 
         public EmployeeListViewModel(IUnitOfWorkFactory unitOfWorkFactory)
         {
             if (unitOfWorkFactory == null)
-                throw new ArgumentNullException("unitOfWorkFactory");
+                throw new ArgumentNullException(nameof(unitOfWorkFactory));
 
             m_unitOfWorkFactory = unitOfWorkFactory;
 
@@ -118,7 +129,8 @@ namespace EmployeeManager.ViewModel
                             employee.EmployeeId,
                             employee.FirstName,
                             employee.LastName,
-                            employee.DateOfBirth, AllDepartments.First(d => d.Id == employee.DepartmentId)
+                            employee.DateOfBirth, 
+                            AllDepartments.First(d => d.Id == employee.DepartmentId)
                         )
                     )
                 );

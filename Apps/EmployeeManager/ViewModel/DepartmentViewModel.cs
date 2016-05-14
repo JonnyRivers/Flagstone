@@ -56,7 +56,6 @@ namespace EmployeeManager.ViewModel
             {
                 m_isDirty = value;
                 OnPropertyChanged("IsDirty");
-                // TODO - this seems heavy handed
                 CommandManager.InvalidateRequerySuggested();
             }
         }
