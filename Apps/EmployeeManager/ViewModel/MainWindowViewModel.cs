@@ -13,10 +13,10 @@ namespace EmployeeManager.ViewModel
         public MainWindowViewModel(ViewModelBase employeeListViewModel, ViewModelBase departmentListViewModel)
         {
             if (employeeListViewModel == null)
-                throw new ArgumentNullException("employeeListViewModel");
+                throw new ArgumentNullException(nameof(employeeListViewModel));
 
             if (departmentListViewModel == null)
-                throw new ArgumentNullException("departmentListViewModel");
+                throw new ArgumentNullException(nameof(departmentListViewModel));
 
             EmployeeListViewModel = employeeListViewModel;
             DepartmentListViewModel = departmentListViewModel;

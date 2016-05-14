@@ -36,7 +36,6 @@ namespace EmployeeManager.ViewModel
                     )
                 );
             }
-            
         }
     }
 }

@@ -15,22 +15,22 @@ namespace EmployeeManager.ViewModel
     {
         private readonly IUnitOfWorkFactory m_unitOfWorkFactory;
 
-        private const long c_invalidId = -1;
+        public const long InvalidDepartmentId = -1;
 
-        private long m_id;
+        private long m_departmentId;
         private string m_name;
 
         private bool m_isDirty;
 
-        public long Id
+        public long DepartmentId
         {
-            get { return m_id; }
+            get { return m_departmentId; }
             set
             {
-                if (value != m_id)
+                if (value != m_departmentId)
                 {
-                    m_id = value;
-                    OnPropertyChanged("Id");
+                    m_departmentId = value;
+                    OnPropertyChanged(nameof(DepartmentId));
                     IsDirty = true;
                 }
             }
@@ -43,7 +43,7 @@ namespace EmployeeManager.ViewModel
                 if (value != m_name)
                 {
                     m_name = value;
-                    OnPropertyChanged("Name");
+                    OnPropertyChanged(nameof(Name));
                     IsDirty = true;
                 }
             }
@@ -61,19 +61,19 @@ namespace EmployeeManager.ViewModel
         }
 
         public DepartmentViewModel(IUnitOfWorkFactory unitOfWorkFactory)
-            : this(unitOfWorkFactory, c_invalidId, "New Department")
+            : this(unitOfWorkFactory, InvalidDepartmentId, "New Department")
         {
             m_isDirty = true;
         }
 
-        public DepartmentViewModel(IUnitOfWorkFactory unitOfWorkFactory, long id, string name)
+        public DepartmentViewModel(IUnitOfWorkFactory unitOfWorkFactory, long departmentId, string name)
         {
             if (unitOfWorkFactory == null)
-                throw new ArgumentNullException("unitOfWorkFactory");
+                throw new ArgumentNullException(nameof(unitOfWorkFactory));
 
             m_unitOfWorkFactory = unitOfWorkFactory;
 
-            Id = id;
+            DepartmentId = departmentId;
             Name = name;
             m_isDirty = false;
 
@@ -93,7 +93,7 @@ namespace EmployeeManager.ViewModel
 
         private void ApplyChangesExecute(object parameter)
         {
-            if (this.Id == c_invalidId)
+            if (this.DepartmentId == InvalidDepartmentId)
             {
                 Department newDepartment = new Department
                 {
@@ -102,7 +102,7 @@ namespace EmployeeManager.ViewModel
                 using (IUnitOfWork unitOfWork = m_unitOfWorkFactory.Create())
                 {
                     unitOfWork.Departments.Add(newDepartment);
-                    this.Id = newDepartment.DepartmentId;
+                    this.DepartmentId = newDepartment.DepartmentId;
                     unitOfWork.Complete();
                 }
             }
@@ -110,7 +110,7 @@ namespace EmployeeManager.ViewModel
             {
                 using (IUnitOfWork unitOfWork = m_unitOfWorkFactory.Create())
                 {
-                    Department storedDepartment = unitOfWork.Departments.Get(this.Id);
+                    Department storedDepartment = unitOfWork.Departments.Get(this.DepartmentId);
                     storedDepartment.Name = this.Name;
                     unitOfWork.Complete();
                 }

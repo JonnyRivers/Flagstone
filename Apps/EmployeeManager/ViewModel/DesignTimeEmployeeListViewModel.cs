@@ -49,7 +49,8 @@ namespace EmployeeManager.ViewModel
                             employee.EmployeeId,
                             employee.FirstName,
                             employee.LastName,
-                            employee.DateOfBirth, AllDepartments.First(d => d.Id == employee.DepartmentId)
+                            employee.DateOfBirth, 
+                            AllDepartments.First(d => d.DepartmentId == employee.DepartmentId)
                         )
                     )
                 );

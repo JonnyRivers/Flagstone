@@ -52,7 +52,7 @@ namespace EmployeeManager.ViewModel
 
         private void OnSelectedEmployeeChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Id")
+            if (e.PropertyName == nameof(EmployeeViewModel.EmployeeId))
                 CommandManager.InvalidateRequerySuggested();
         }
 
@@ -87,7 +87,7 @@ namespace EmployeeManager.ViewModel
             // update model
             using(IUnitOfWork unitOfWork = m_unitOfWorkFactory.Create())
             {
-                Employee storedEmployee = unitOfWork.Employees.Get(SelectedEmployee.Id);
+                Employee storedEmployee = unitOfWork.Employees.Get(SelectedEmployee.EmployeeId);
                 unitOfWork.Employees.Remove(storedEmployee);
                 unitOfWork.Complete();
             }
@@ -99,7 +99,7 @@ namespace EmployeeManager.ViewModel
 
         private bool DeleteEmployeeCanExecute(object parameter)
         {
-            return (SelectedEmployee != null && SelectedEmployee.Id != -1);
+            return (SelectedEmployee != null && SelectedEmployee.EmployeeId != EmployeeViewModel.InvalidEmployeeId);
         }
 
         public EmployeeListViewModel(IUnitOfWorkFactory unitOfWorkFactory)
@@ -130,7 +130,7 @@ namespace EmployeeManager.ViewModel
                             employee.FirstName,
                             employee.LastName,
                             employee.DateOfBirth, 
-                            AllDepartments.First(d => d.Id == employee.DepartmentId)
+                            AllDepartments.First(d => d.DepartmentId == employee.DepartmentId)
                         )
                     )
                 );

@@ -15,9 +15,9 @@ namespace EmployeeManager.ViewModel
     {
         private readonly IUnitOfWorkFactory m_unitOfWorkFactory;
 
-        private const long c_invalidId = -1;
+        public const long InvalidEmployeeId = -1;
 
-        private long m_id;
+        private long m_employeeId;
         private string m_firstName;
         private string m_lastName;
         private DateTime m_dateOfBirth;
@@ -25,15 +25,15 @@ namespace EmployeeManager.ViewModel
 
         private bool m_isDirty;
 
-        public long Id
+        public long EmployeeId
         {
-            get { return m_id; }
+            get { return m_employeeId; }
             set
             {
-                if (value != m_id)
+                if (value != m_employeeId)
                 {
-                    m_id = value;
-                    OnPropertyChanged("Id");
+                    m_employeeId = value;
+                    OnPropertyChanged(nameof(EmployeeId));
                     IsDirty = true;
                 }
             }
@@ -45,7 +45,7 @@ namespace EmployeeManager.ViewModel
                 if (value != m_firstName)
                 {
                     m_firstName = value;
-                    OnPropertyChanged("FirstName");
+                    OnPropertyChanged(nameof(FirstName));
                     IsDirty = true;
                 }
             }
@@ -58,7 +58,7 @@ namespace EmployeeManager.ViewModel
                 if (value != m_lastName)
                 {
                     m_lastName = value;
-                    OnPropertyChanged("LastName");
+                    OnPropertyChanged(nameof(LastName));
                     IsDirty = true;
                 }
             }
@@ -71,7 +71,7 @@ namespace EmployeeManager.ViewModel
                 if (value != m_dateOfBirth)
                 {
                     m_dateOfBirth = value;
-                    OnPropertyChanged("DateOfBirth");
+                    OnPropertyChanged(nameof(DateOfBirth));
                     IsDirty = true;
                 }
             }
@@ -84,7 +84,7 @@ namespace EmployeeManager.ViewModel
                 if (value != m_department)
                 {
                     m_department = value;
-                    OnPropertyChanged("Department");
+                    OnPropertyChanged(nameof(Department));
                     IsDirty = true;
                 }
             }
@@ -96,7 +96,7 @@ namespace EmployeeManager.ViewModel
             private set
             {
                 m_isDirty = value;
-                OnPropertyChanged("IsDirty");
+                OnPropertyChanged(nameof(IsDirty));
                 CommandManager.InvalidateRequerySuggested();
             }
         }
@@ -104,7 +104,7 @@ namespace EmployeeManager.ViewModel
         public EmployeeViewModel(IUnitOfWorkFactory unitOfWorkFactory, DepartmentViewModel deparment) : 
             this(
                 unitOfWorkFactory,
-                c_invalidId,
+                InvalidEmployeeId,
                 "New",
                 "Employee",
                 DateTime.Now,
@@ -114,14 +114,14 @@ namespace EmployeeManager.ViewModel
             m_isDirty = true;
         }
 
-        public EmployeeViewModel(IUnitOfWorkFactory unitOfWorkFactory, long id, string firstName, string lastName, DateTime dateOfBirth, DepartmentViewModel deparment)
+        public EmployeeViewModel(IUnitOfWorkFactory unitOfWorkFactory, long employeeId, string firstName, string lastName, DateTime dateOfBirth, DepartmentViewModel deparment)
         {
             if (unitOfWorkFactory == null)
-                throw new ArgumentNullException("unitOfWorkFactory");
+                throw new ArgumentNullException(nameof(unitOfWorkFactory));
 
             m_unitOfWorkFactory = unitOfWorkFactory;
 
-            m_id = id;
+            m_employeeId = employeeId;
             m_firstName = firstName;
             m_lastName = lastName;
             DateOfBirth = dateOfBirth;
@@ -144,18 +144,18 @@ namespace EmployeeManager.ViewModel
 
         private void ApplyChangesExecute(object parameter)
         {
-            if (this.Id == c_invalidId) {
+            if (this.EmployeeId == InvalidEmployeeId) {
                 Employee newEmployee = new Employee
                 {
                     FirstName = this.FirstName,
                     LastName = this.LastName,
                     DateOfBirth = this.DateOfBirth,
-                    DepartmentId = this.Department.Id
+                    DepartmentId = this.Department.DepartmentId
                 };
                 using (IUnitOfWork unitOfWork = m_unitOfWorkFactory.Create())
                 {
                     unitOfWork.Employees.Add(newEmployee);
-                    this.Id = newEmployee.DepartmentId;
+                    this.EmployeeId = newEmployee.EmployeeId;
                     unitOfWork.Complete();
                 }
             }
@@ -163,11 +163,11 @@ namespace EmployeeManager.ViewModel
             {
                 using (IUnitOfWork unitOfWork = m_unitOfWorkFactory.Create())
                 {
-                    Employee storedEmployee = unitOfWork.Employees.Get(this.Id);
+                    Employee storedEmployee = unitOfWork.Employees.Get(this.EmployeeId);
                     storedEmployee.FirstName = this.FirstName;
                     storedEmployee.LastName = this.LastName;
                     storedEmployee.DateOfBirth = this.DateOfBirth;
-                    storedEmployee.DepartmentId = this.Department.Id;
+                    storedEmployee.DepartmentId = this.Department.DepartmentId;
                     unitOfWork.Complete();
                 }
             }

@@ -46,7 +46,7 @@ namespace EmployeeManager.ViewModel
 
         private void OnSelectedDepartmentChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(e.PropertyName == "Id")
+            if(e.PropertyName == nameof(DepartmentViewModel.DepartmentId))
                 CommandManager.InvalidateRequerySuggested();
         }
 
@@ -80,7 +80,7 @@ namespace EmployeeManager.ViewModel
         {
             // update model
             using(IUnitOfWork unitOfWork = m_unitOfWorkFactory.Create()) {
-                Department storedDepartment = unitOfWork.Departments.Get(SelectedDepartment.Id);
+                Department storedDepartment = unitOfWork.Departments.Get(SelectedDepartment.DepartmentId);
                 unitOfWork.Departments.Remove(storedDepartment);
                 unitOfWork.Complete();
             }
@@ -92,7 +92,7 @@ namespace EmployeeManager.ViewModel
 
         private bool DeleteDepartmentCanExecute(object parameter)
         {
-            return (SelectedDepartment != null && SelectedDepartment.Id != -1);
+            return (SelectedDepartment != null && SelectedDepartment.DepartmentId != DepartmentViewModel.InvalidDepartmentId);
         }
 
         public DepartmentListViewModel(IUnitOfWorkFactory unitOfWorkFactory)
