@@ -45,7 +45,9 @@ namespace EmployeeManagerWeb.App_Start
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
-                RegisterServices(kernel);
+                System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver = 
+                    new EmployeeManagerWebApi.Infrastructure.NinjectDependencyResolver(kernel);
+
                 return kernel;
             }
             catch
@@ -53,17 +55,6 @@ namespace EmployeeManagerWeb.App_Start
                 kernel.Dispose();
                 throw;
             }
-        }
-
-        /// <summary>
-        /// Load your modules or register your services here!
-        /// </summary>
-        /// <param name="kernel">The kernel.</param>
-        private static void RegisterServices(IKernel kernel)
-        {
-            System.Web.Mvc.IDependencyResolver ninjectDependencyResolver =
-                new EmployeeManagerWebApi.Infrastructure.NinjectDependencyResolver(kernel);
-            System.Web.Mvc.DependencyResolver.SetResolver(ninjectDependencyResolver);
         }
     }
 }

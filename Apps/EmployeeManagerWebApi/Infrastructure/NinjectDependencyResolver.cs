@@ -6,10 +6,11 @@ using System.Web.Mvc;
 using Ninject;
 
 using Flagstone.Data.Employees;
+using System.Web.Http.Dependencies;
 
 namespace EmployeeManagerWebApi.Infrastructure
 {
-    public class NinjectDependencyResolver : IDependencyResolver
+    public class NinjectDependencyResolver : System.Web.Http.Dependencies.IDependencyResolver
     {
         private IKernel m_kernel;
 
@@ -17,6 +18,16 @@ namespace EmployeeManagerWebApi.Infrastructure
         {
             m_kernel = kernel;
             AddBindings();
+        }
+
+        public IDependencyScope BeginScope()
+        {
+            return new NinjectDependencyScope(m_kernel.BeginBlock());
+        }
+
+        public void Dispose()
+        {
+            
         }
 
         public object GetService(Type serviceType)

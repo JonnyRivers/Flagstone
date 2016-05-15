@@ -13,12 +13,6 @@ namespace EmployeeManagerWebApi.Controllers
     {
         private IUnitOfWorkFactory m_unitOfWorkFactory;
 
-        public DepartmentController()
-        {
-            // TODO - replace this with Ninject goodness
-            m_unitOfWorkFactory = new FakeUnitOfWorkFactory();
-        }
-
         public DepartmentController(IUnitOfWorkFactory unitOfWorkFactory)
         {
             if (unitOfWorkFactory == null)
