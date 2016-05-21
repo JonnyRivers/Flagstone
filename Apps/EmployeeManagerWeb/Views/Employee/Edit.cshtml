@@ -4,14 +4,22 @@
     ViewBag.Title = "Edit " + Model.FirstName + " " + Model.LastName;
 }
 
-<div>
-  @using (Html.BeginForm("Edit", "Employee"))
-  {
-      @Html.HiddenFor(x => x.EmployeeId)
-      <p>First name: @Html.TextBoxFor(x => x.FirstName) </p>
-      <p>Last name: @Html.TextBoxFor(x => x.LastName) </p>
-      <p>Date of birth: @Html.EditorFor(x => x.DateOfBirth) </p>
-      <p>Department: @Html.DropDownListFor(x => x.SelectedDepartmentId, Model.DepartmentItems) </p>
-      <input type="submit" value="Submit" />
-  }
-</div>
+@using (Html.BeginForm("Edit", "Employee"))
+{
+    <div class="panel panel-default">
+      <div class="panel panel-heading">
+        <h3>Editing @Model.FirstName @Model.LastName</h3>
+      </div>
+      <div class="panel-body">
+        @Html.HiddenFor(x => x.EmployeeId)
+        <p>First name: @Html.TextBoxFor(x => x.FirstName) </p>
+        <p>Last name: @Html.TextBoxFor(x => x.LastName) </p>
+        <p>Date of birth: @Html.EditorFor(x => x.DateOfBirth) </p>
+        <p>Department: @Html.DropDownListFor(x => x.SelectedDepartmentId, Model.DepartmentItems) </p>
+      </div>
+      <div class="panel-footer">
+        <input class="btn btn-primary" type="submit" value="Submit" />
+        @Html.ActionLink("Back to list", "Index", null, new { @class = "btn btn-default" })
+      </div>
+    </div>
+}
