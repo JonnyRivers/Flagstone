@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="EmployeeModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="EmployeeModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="DepartmentId" />
@@ -16,13 +16,13 @@
           <Key>
             <PropertyRef Name="EmployeeId" />
           </Key>
-          <Property Name="EmployeeId" Type="uint" Nullable="false" />
+          <Property Name="EmployeeId" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FirstName" Type="varchar" MaxLength="45" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="45" Nullable="false" />
           <Property Name="DateOfBirth" Type="date" Nullable="false" />
           <Property Name="DepartmentId" Type="uint" Nullable="false" />
         </EntityType>
-        <Association Name="employee_department_fk">
+        <Association Name="EmployeeDepartmentFK">
           <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
           <ReferentialConstraint>
@@ -37,45 +37,38 @@
         <EntityContainer Name="EmployeeModelStoreContainer">
           <EntitySet Name="Department" EntityType="Self.Department" Schema="employee" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="employee" store:Type="Tables" />
-          <AssociationSet Name="employee_department_fk" Association="Self.employee_department_fk">
+          <AssociationSet Name="EmployeeDepartmentFK" Association="Self.EmployeeDepartmentFK">
             <End Role="Department" EntitySet="Department" />
             <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="EmployeeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="EmployeesDbContext" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Departments" EntityType="EmployeeModel.Department" />
-          <EntitySet Name="Employees" EntityType="EmployeeModel.Employee" />
-          <AssociationSet Name="employee_department_fk" Association="EmployeeModel.employee_department_fk">
-            <End Role="Department" EntitySet="Departments" />
-            <End Role="Employee" EntitySet="Employees" />
-          </AssociationSet>
-        </EntityContainer>
         <EntityType Name="Department">
           <Key>
             <PropertyRef Name="DepartmentId" />
           </Key>
           <Property Name="DepartmentId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Employees" Relationship="EmployeeModel.employee_department_fk" FromRole="Department" ToRole="Employee" />
+          <Property Name="Name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.EmployeeDepartmentFK" FromRole="Department" ToRole="Employee" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="EmployeeId" />
           </Key>
-          <Property Name="EmployeeId" Type="Int64" Nullable="false" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="EmployeeId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="DateOfBirth" Type="DateTime" Nullable="false" />
           <Property Name="DepartmentId" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Department" Relationship="EmployeeModel.employee_department_fk" FromRole="Employee" ToRole="Department" />
+          <NavigationProperty Name="Department" Relationship="Self.EmployeeDepartmentFK" FromRole="Employee" ToRole="Department" />
         </EntityType>
-        <Association Name="employee_department_fk">
-          <End Type="EmployeeModel.Department" Role="Department" Multiplicity="1" />
-          <End Type="EmployeeModel.Employee" Role="Employee" Multiplicity="*" />
+        <Association Name="EmployeeDepartmentFK">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Department">
               <PropertyRef Name="DepartmentId" />
@@ -85,6 +78,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityContainer Name="EmployeesDbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <AssociationSet Name="EmployeeDepartmentFK" Association="Self.EmployeeDepartmentFK">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -94,19 +95,19 @@
           <EntitySetMapping Name="Departments">
             <EntityTypeMapping TypeName="EmployeeModel.Department">
               <MappingFragment StoreEntitySet="Department">
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="EmployeeModel.Employee">
               <MappingFragment StoreEntitySet="Employee">
-                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
-                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
