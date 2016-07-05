@@ -8,6 +8,9 @@ namespace DriveBackup
     {
         static int Main(string[] args)
         {
+            string sourceDirectory = args[0];
+            string destinationDirectory = args[1];
+
             IFileSystem fileSystem = new FileSystem();
 
             ILoggerFactory loggerFactory = new LoggerFactory();
@@ -15,8 +18,7 @@ namespace DriveBackup
 
             Application application = new Application(fileSystem, logger);
 
-            // TODO: drive this via the command line
-            return application.Run(@"F:\", @"G:\");
+            return application.Run(sourceDirectory, destinationDirectory);
         }
     }
 }
