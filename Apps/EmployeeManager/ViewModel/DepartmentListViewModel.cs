@@ -67,13 +67,41 @@ namespace EmployeeManager.ViewModel
             private set;
         }
 
+        public ICommand EditDepartmentCommand
+        {
+            get;
+            private set;
+        }
+
         private void AddDepartmentExecute(object parameter)
         {
-            var newDepartment = new DepartmentViewModel(m_unitOfWorkFactory);
+            var editDepartmentViewModel = new EditDepartmentViewModel(m_unitOfWorkFactory);
+            var editView = new View.EditDepartmentView
+            {
+                DataContext = editDepartmentViewModel
+            };
 
-            AllDepartments.Add(newDepartment);
+            // This seems nuts - we are inspecting the view model
+            bool? result = editView.ShowDialog();
 
-            SelectedDepartment = newDepartment;
+            if (result.HasValue && result.Value)
+            {
+                // Update model
+                Department newDepartment = new Department
+                {
+                    Name = editDepartmentViewModel.Name
+                };
+                using (IUnitOfWork unitOfWork = m_unitOfWorkFactory.Create())
+                {
+                    unitOfWork.Departments.Add(newDepartment);
+                    unitOfWork.Complete();
+                }
+
+                // Update view model
+                var newViewModel = new DepartmentViewModel(m_unitOfWorkFactory, newDepartment.DepartmentId, newDepartment.Name);
+                AllDepartments.Add(newViewModel);
+                SelectedDepartment = newViewModel;
+            }
         }
 
         private void DeleteDepartmentExecute(object parameter)
@@ -91,6 +119,36 @@ namespace EmployeeManager.ViewModel
         }
 
         private bool DeleteDepartmentCanExecute(object parameter)
+        {
+            return (SelectedDepartment != null && SelectedDepartment.DepartmentId != DepartmentViewModel.InvalidDepartmentId);
+        }
+
+        private void EditDepartmentExecute(object parameter)
+        {
+            var editDepartmentViewModel = new EditDepartmentViewModel(m_unitOfWorkFactory, SelectedDepartment.DepartmentId, SelectedDepartment.Name);
+            var editView = new View.EditDepartmentView {
+                DataContext = editDepartmentViewModel
+            };
+
+            // This seems nuts - we are inspecting the view model
+            bool? result = editView.ShowDialog();
+
+            if(result.HasValue && result.Value)
+            {
+                // Update model
+                using (IUnitOfWork unitOfWork = m_unitOfWorkFactory.Create())
+                {
+                    Department storedDepartment = unitOfWork.Departments.Get(editDepartmentViewModel.DepartmentId);
+                    storedDepartment.Name = editDepartmentViewModel.Name;
+                    unitOfWork.Complete();
+                }
+
+                // Update view model
+                SelectedDepartment.Name = editDepartmentViewModel.Name;
+            }
+        }
+
+        private bool EditDepartmentCanExecute(object parameter)
         {
             return (SelectedDepartment != null && SelectedDepartment.DepartmentId != DepartmentViewModel.InvalidDepartmentId);
         }
@@ -119,6 +177,7 @@ namespace EmployeeManager.ViewModel
 
             AddDepartmentCommand = new RelayCommand(AddDepartmentExecute, null);
             DeleteDepartmentCommand = new RelayCommand(DeleteDepartmentExecute, DeleteDepartmentCanExecute);
+            EditDepartmentCommand = new RelayCommand(EditDepartmentExecute, EditDepartmentCanExecute);
         }
     }
 }

@@ -76,16 +76,24 @@
     <Compile Include="ViewModel\DesignTimeDepartmentListViewModel.cs" />
     <Compile Include="ViewModel\DesignTimeEmployeeListViewModel.cs" />
     <Compile Include="ViewModel\DesignTimeMainWindowViewModel.cs" />
+    <Compile Include="ViewModel\EditDepartmentViewModel.cs" />
     <Compile Include="ViewModel\EmployeeListViewModel.cs" />
     <Compile Include="ViewModel\EmployeeViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="View\DepartmentListView.xaml.cs">
       <DependentUpon>DepartmentListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\EditDepartmentView.xaml.cs">
+      <DependentUpon>EditDepartmentView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EmployeeListView.xaml.cs">
       <DependentUpon>EmployeeListView.xaml</DependentUpon>
     </Compile>
     <Page Include="View\DepartmentListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EditDepartmentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
