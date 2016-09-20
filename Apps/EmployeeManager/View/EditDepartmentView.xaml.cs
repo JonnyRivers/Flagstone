@@ -24,6 +24,7 @@ namespace EmployeeManager.View
             InitializeComponent();
         }
 
+        // This is unfortunate
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = true;
